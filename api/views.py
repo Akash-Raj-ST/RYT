@@ -71,14 +71,17 @@ def places(request, place_id):
         sta = status.HTTP_401_UNAUTHORIZED
         if place_obj.exists():
             place_obj = Places.objects.get(p_id=place_id)
-            # data = {
-            #     "p_id": place_obj.p_id,
-            #     "place": place_obj.place,
-            #     "link": place_obj.link,
-            #     "image": place_obj.image.url
-            # }
-            serializer = PlacesSerializer(place_obj)
-            data = {"message": "Successful", "data": serializer.data}
+            data = {
+                "p_id": place_obj.p_id,
+                "place": place_obj.place_name,
+                "link": place_obj.link,
+                "image": place_obj.image.url,
+                "subject":place_obj.subject,
+                "place_type":place_obj.place_type
+            }
+            # serializer = PlacesSerializer(place_obj)
+            # data = {"message": "Successful", "data": serializer.data}
+            data = {"message": "Successful", "data": data}
             return Response(data, status=status.HTTP_202_ACCEPTED)
         else:
             data = {"message": "Place not found"}
@@ -89,17 +92,75 @@ def places(request, place_id):
 @api_view(["GET", "POST"])
 def review(request):
     if request.method == "GET":
-        place_id = request.data["p_id"]
-        place_obj = Places.objects.filter(p_id=place_id)
-        if place_obj.exists():
-            review_objs = Review.objects.filter(p_id=place_id)
+        try:
+            if request.session['id']:
+                logged = True
+        except:
+            logged = False
+
+        place_id = request.data["p_id"] #place_id from payload
+
+        place_obj = Places.objects.filter(p_id=place_id) 
+        if place_obj.exists(): #checking if place exists
+            review_objs = Review.objects.filter(p_id=place_id) #Fetching reviws of that place
+            all_data = [] #contains details of all reviews
             if review_objs.exists():
-                serializer = ReviewSerializer(review_objs, many=True)
-                data = {"message": "Reviews Fetched Successfully", "data": serializer.data}
+                for review in review_objs: #looping through every review
+
+                    #Checking whether the user has liked the review
+                    if logged:
+                        like_objs = Review_like.objects.filter(r_id=review.r_id)
+                        if like_objs.exists():
+                            for like_obj in like_objs:
+                                if like_obj.u_id.user_id == request.session['id']:
+                                    liked = True
+                                    break
+                                else:
+                                    liked = False
+                        else:
+                            liked = False
+                    else:
+                        liked = False
+
+                    #Fecthing the tags of review
+                    tags = []
+                    tag_objs = Review_tag.objects.filter(r_id=review.r_id)
+                    if tag_objs.exists():
+                        for tag_obj in tag_objs:
+                            tags.append(tag_obj.tags)
+
+                    #fetching the images of review
+                    images = []
+                    img_objs = Review_pic.objects.filter(r_id=review.r_id)
+                    if img_objs.exists():
+                        for img_obj in img_objs:
+                            images.append(img_obj.r_pic.url)
+
+                    # fetch user_dp
+                    if review.u_id.dp:
+                        user_dp = review.u_id.dp.url
+                    else:
+                        user_dp = None
+                    #data of a particular review
+                    data = { 
+                        "r_id": review.r_id,
+                        "content": review.content,
+                        "likes": review.likes,
+                        "p_id": review.p_id.p_id,
+                        "u_id": review.u_id.user_id,
+                        "user_name":review.u_id.user_name,
+                        "user_dp":user_dp,
+                        "r_pic":images,
+                        "tags": tags,
+                        "liked": liked
+                    }
+                    all_data.append(data)
+                f_data = {"message": "Reviews Fetched Successfully", "data": all_data}
             else:
                 msg = "No reviews yet"
                 data = {"message": msg, "data": None}
-            return Response(data, status=status.HTTP_202_ACCEPTED)
+            print(all_data)
+            return Response(f_data, status=status.HTTP_202_ACCEPTED)
         else:
             msg = "Place not found"
         return Response({"message": msg}, status=status.HTTP_401_UNAUTHORIZED)
