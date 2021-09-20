@@ -135,6 +135,12 @@ def review(request):
                     if img_objs.exists():
                         for img_obj in img_objs:
                             images.append(img_obj.r_pic.url)
+
+                    # fetch user_dp
+                    if review.u_id.dp:
+                        user_dp = review.u_id.dp.url
+                    else:
+                        user_dp = None
                     #data of a particular review
                     data = { 
                         "r_id": review.r_id,
@@ -142,6 +148,8 @@ def review(request):
                         "likes": review.likes,
                         "p_id": review.p_id.p_id,
                         "u_id": review.u_id.user_id,
+                        "user_name":review.u_id.user_name,
+                        "user_dp":user_dp,
                         "r_pic":images,
                         "tags": tags,
                         "liked": liked
