@@ -1,11 +1,32 @@
+<style>
+img{
+    width:50px;
+    height:50px;
+}
+</style>
 {% load static %}
     <img src="{{place.image}}">
-    <h3>{{place.place_name}}</h3>
-    <h2>{{place.subject}}</h2>
+    <h3>place Name: {{place.place_name}}</h3>
+    <h2>place subject:{{place.subject}}</h2>
 
-    <h2>{{place.link}}</h2>
+    <h2>place Link:{{place.link}}</h2>
 
     <h1>Reviews</h1>
     {% for review in reviews%}
-        
+        <h2>Reviewer Name:{{review.user_name}}</h2>
+        <img src="{{review.user_dp}}" alt="no_dp">
+        {%for tag in review.tags%}
+            <h2>Tags:{{tag}}</h2>
+        {%empty%}
+            <h2>No Tags</h2>
+        {% endfor %}
+        <h2>Review_pics:</h2>
+        {%for pic in review.r_pic%}
+            <img style="width:50px,height:50px;" src="{{pic}}">
+        {%empty%}
+            <h2>No review pics</h2>
+        {% endfor %}
+        <h2>Content:{{review.content}}</h2>
+        <h2>Liked:{{review.liked}}</h2>
+        <h1>===================================</h1>
     {%endfor%}
