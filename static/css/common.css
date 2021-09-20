@@ -1,0 +1,69 @@
+:root{
+    --pri_col : red;
+    --sec_col : blue;
+    --third_col : black;
+    --fourth_col : white;
+}
+
+.title{
+    color: var(--pri_col);
+    letter-spacing: 15px;
+}
+
+.full_form{
+    color: var(--third_col);
+}
+
+.selection{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.button{
+    border-radius: 25px;
+    color: var(--fourth_col);
+    background-color: var(--pri_col);
+    padding: 5px 25px;
+    border: 2px solid black;
+    cursor: pointer;
+    width: fit-content;
+    font-weight: bold;
+}
+
+.button:hover{
+    background-color: var(--fourth_col);
+    color: var(--pri_col);
+}
+
+.input_field{
+    border-radius: 5px;
+    border: 2px solid black;
+    height: 25px;
+    padding-left: 10px;
+}
+
+.input_field{
+    width: 70%;
+    min-width: 300px;
+    height: 45px;
+    margin: 10px 0;
+    font-size: 0.4rem;
+    font-weight: bold;
+}
+
+.input_field:focus::placeholder{
+    color: transparent;
+}
+
+.input_field::placeholder{
+    opacity: 0.5;
+    font-size: 15px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+}

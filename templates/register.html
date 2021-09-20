@@ -1,0 +1,51 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'css/common.css'%}">
+    <link rel="stylesheet" href="{% static 'css/register.css'%}">
+
+    <title>RYT</title>
+</head>
+<body>
+    <section class="left">
+        <div class="left_top">
+            <h1 class="title">RYT</h1>
+            <h3 class="full_form">Review Your Tour</h3>
+        </div>
+        <img src="{% static 'img/register_img.svg' %}" alt="register" class="register_img">
+    </section>
+
+    <section class="right">
+        <div class="left_top in_right">
+            <h1 class="title">RYT</h1>
+            <h3 class="full_form">Review Your Tour</h3>
+        </div>
+        <form action="register" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div onclick="photo_upload();" class="photo_upload">
+                <img id="upload_pic" />
+            </div>
+            <input type="text" id="name" name="name" class="input_field" placeholder="name">
+            <input type="text" id="user_name" name="user_name"class="input_field" placeholder="username">
+            <input type="email" id="email" name="email"class="input_field" placeholder="email">
+            <input type="password" id="password" name="password" class="input_field" placeholder="Password">
+            <div class="selection">
+                <button type="submit" class="button" id="signup">Sign Up</button>
+                <div class="login_redirect">
+                    <h4 class="login_info">Already have an account?</h4>
+                    <a class="login_link" href="/">Click Here</a>
+                </div>
+               
+            </div>  
+            <input type="file" name="dp_file" class="file_input" accept="image/*" onchange="loadFile(event)">
+        </form>
+
+    </section>
+
+    <script src="{% static 'js/photo.js'%}"></script>
+</body>
