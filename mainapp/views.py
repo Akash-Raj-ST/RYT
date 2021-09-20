@@ -101,12 +101,12 @@ def place(request,p_id):
         response_json = json.loads(response.text)
         place_data = response_json["data"]
         print(response_json)
-        payload = json.dumps(
-            {
+        payload = json.dumps({
                 "p_id":p_id
-            }
-        )
-        response = request_api("review",method="GET")
-        response_json = json.loads(response.text)
-        review_data = response_json["data"]
-        return render(request,"place.html",{"place":place_data,"reviews":review_data })
+            })
+        response = request_api("review",payload,method="GET")
+        if response.ok:
+            response_json = json.loads(response.text)
+            review_data = response_json["data"]
+            return render(request,"place.html",{"place":place_data,"reviews":review_data })
+        return HttpResponse("Failed")
