@@ -1,0 +1,33 @@
+.container{
+    display: flex;
+    flex-direction: column;
+}
+
+.section{
+    width: 100%;
+    height: fit-content;
+  
+}
+.type{
+    text-decoration: underline;
+}
+
+.places{
+    display: flex;
+    flex-direction: row;
+}
+
+.place_container{
+    height: 200px;
+    width: 100px;
+    border: 2px solid black;
+    margin: 20px;
+}
+
+.place_img{
+    height: 80%;
+    width: 100%;
+}
+.place_name{
+    width: 100%;
+}

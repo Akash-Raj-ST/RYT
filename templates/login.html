@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+    <title>RYT</title>
+</head>
+<body>
+    <section class="left">
+
+        <div class="left_top">
+            <h1 class="title">RYT</h1>
+            <h3 class="full_form">Review Your Tour</h3>
+        </div>
+        
+        <form action="/" method="POST">
+            {% csrf_token %}
+            <input type="text" id="user_name" class="input_field" name="user_name" placeholder="Username">
+            <input type="password" id="password" class="input_field" name="password" placeholder="Password">
+
+            <div class="selection">
+                <button type="submit" class="button" id="visit">Visit</button>
+                <h4 id="or">OR</h4>
+            </div>         
+        </form>
+        <a href="register" class="selection">
+            <button type="submit" class="button" id="sign_up">Sign Up</button>
+        </a>
+    </section>
+
+    <section class="right">
+        <img id="index_dp" src="{% static 'img/index_img.svg' %}" alt="Wallpaper">
+    </section>
+</body>
+</html>

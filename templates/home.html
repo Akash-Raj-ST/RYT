@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{%static 'css/home.css' %}">
+    <title>RYT</title>
+</head>
+<body>
+        <div class="container">
+            {% for p_type,value in data.items%}
+            <div class="section">
+                    <h1 class="type">{{p_type}}</h1>
+                    <div class="places">
+                        {% for place in value%}
+                            <a class="place_container" href="places\{{place.id}}">
+                                <img src="{{place.img}}" alt="img" class="place_img">
+                                <h3 class="place_name">{{place.place_name}}</h3>
+                            </a>
+                        {% endfor %}
+                    </div>
+            </div>
+            {% endfor %}
+        </div>
+</body>
+</html>

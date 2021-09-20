@@ -1,0 +1,94 @@
+*{
+    margin: 0%;
+    padding: 0%;
+}
+
+a{
+    text-decoration: none;
+}
+
+html{
+    height: 100vh;
+    width: 100%;
+    font-family: 'Montserrat';
+    padding-top: 5%;
+    font-size: 50px;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    flex-direction: row;
+}
+
+
+.left{
+    width: fit-content;
+    padding-left: 15%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.left_top{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    margin-bottom: 40%;
+}
+
+.title{
+    font-size: 1.5rem;
+}
+
+.full_form{
+    font-size: 0.55rem;
+}
+
+
+
+.button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    font-size: 0.35rem;
+}
+
+#sign_up{
+    width: 125px;
+}
+
+#or{
+    font-size: 0.4rem;
+}
+
+#index_dp{
+    width: 80%;
+    height: 70%;
+}
+
+.right{
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media only screen and (max-width:600px) {
+    .left{
+        width: 100%;
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .input_field{
+        width: 100%;
+    }
+
+    .right{
+        display: none;
+    }
+}
+

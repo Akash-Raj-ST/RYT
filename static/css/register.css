@@ -1,0 +1,133 @@
+*{
+    margin: 0%;
+    padding: 0%;
+}
+:root{
+    --backg_col:#EBCBCB;
+}
+
+html{
+    height: 100vh;
+    width: 100%;
+    font-family: 'Montserrat';
+    font-size: 50px;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.title{
+    /* padding-top: 3%; */
+    box-sizing: border-box;
+    font-size: 1.5rem;
+}
+
+.full_form{
+    font-size: 0.55rem;
+}
+
+.left{
+    min-height: 100vh;
+    height: fit-content;
+    width: 50%;
+    background-color: var(--backg_col);
+}
+
+.left_top{
+    padding-left: 50px;
+    padding-top: 50px;
+}
+
+.register_img{
+    width: 80%;
+    height: 60%;
+    padding-top: 50px;
+}
+
+.right{
+    width: 50%;
+    /* padding: 10px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.in_right{
+    display: none;
+    /* align-self:flex-start; */
+    padding-left: 0%;
+}
+
+.photo_upload{
+    width: 120px;
+    height: 120px;
+    border-radius: 20%;
+    background-color: #C4C4C4;
+    background-image: url('https://avatars.dicebear.com/api/avataaars/:seed.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* background-size: 170px 50px; */
+    margin:25px auto;
+    cursor: pointer;
+}
+
+.photo_upload:hover{
+    background-color: #7e7979;
+}
+
+#upload_pic{
+    width: 100%;
+    height: 100%;
+    border-radius: 20%;
+}
+.file_input{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    visibility: hidden;
+}
+
+.login_redirect{
+    font-size: 0.3rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.login_link{
+    color: var(--pri_col);
+    margin: 0 5px;
+    font-weight: bold;
+}
+
+#signup{
+    padding: 10px 25px;
+    margin: 10px;
+    font-size: 0.3rem;
+}
+
+.transparent-back{
+    opacity: 20%;
+    transition: opacity 0.5s;
+}
+
+@media only screen and (max-width:675px){
+    .left{
+        display: none;
+    }
+    .right{
+        width: 100%;
+        /* height: 100vh; */
+        background-color: var(--backg_col);
+    }
+    .in_right{
+        display: block;
+    }
+}
