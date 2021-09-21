@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .serializer import UserSerializer, PlacesSerializer, ReviewSerializer
+from .serializer import UserSerializer, PlacesSerializer, ReviewSerializer, Review_likeSerializer, Review_picSerializer, Review_tagSerializer
 from .models import User, Places, Review, Review_like, Review_pic, Review_tag
 
 
@@ -167,6 +167,7 @@ def review(request):
 
     elif request.method == "POST":
         place_obj = Places.objects.filter(p_id=request.data["p_id"])
+        msgs = []
         if place_obj.exists():
             logged = False
             try:
@@ -174,17 +175,72 @@ def review(request):
                     logged = True
             except:
                 logged = False
-            if logged:              
-                serializer = ReviewSerializer(data=request.data)
-                if serializer.is_valid():
-                    serializer.save()
+            if logged:
+                #data for review table
+                review_data = {
+                    "p_id": request.data["p_id"],
+                    "u_id": request.session['id'],
+                    "content": request.data["content"],
+                }              
+                review_serializer = ReviewSerializer(data=review_data)
+
+                if review_serializer.is_valid():
+                    new_review = review_serializer.save()
+
+                    #data for tag table
+                    tags = request.data.getlist("tags")
+                    tag_serializers = []
+                    tag_prob = False
+                    for tag in tags:
+                        tag_data = {
+                            "r_id":new_review.r_id,
+                            "tags": tag
+                        }
+                        tag_serializer = Review_tagSerializer(data=tag_data)
+                        if tag_serializer.is_valid():
+                            tag_serializers.append(tag_serializer)
+                        else:
+                            tag_prob = True
+                            break
+                    if not tag_prob:
+                        for tag_serializer in tag_serializers:
+                            tag_serializer.save()
+                    else:
+                        msgs.append("Problem in adding tags")
+
+                    #data for pic table
+                    r_pics = request.FILES.getlist("r_pic")
+                    pic_serializers = []
+                    pic_prob = False
+                    for pic in r_pics:
+                        pic_data = {
+                            "r_id":new_review.r_id,
+                            "r_pic": pic
+                        }
+                        pic_serializer = Review_picSerializer(data=pic_data)
+                        if pic_serializer.is_valid():
+                            pic_serializers.append(pic_serializer)
+                        else:
+                            pic_prob = True
+                            break
+                    if not pic_prob:
+                        for pic_serializer in pic_serializers:
+                            pic_serializer.save()
+                    else:
+                        msgs.append("Problem in adding pics")
+
                     msg = "Review added successfully"
-                    data = {
-                        "message":msg
-                    }
+                    if not tag_prob and not pic_prob:
+                        data = {
+                            "message":msg
+                        }
+                    else:
+                        data = {
+                            "message":msgs
+                        }
                     return Response(data, status=status.HTTP_202_ACCEPTED)
                 else: 
-                    msg = "Not valid"
+                    msg = "Review Not valid"
             else:
                 msg = "Login to add Review"
         else:
