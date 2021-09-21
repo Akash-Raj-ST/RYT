@@ -18,3 +18,18 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Review
         fields = "__all__"
+
+class Review_picSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Review_pic
+        fields = "__all__"
+
+class Review_tagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Review_tag
+        fields = "__all__"
+
+class Review_likeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Review_like
+        fields = "__all__"
