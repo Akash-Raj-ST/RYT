@@ -1,8 +1,26 @@
 <style>
+body{
+    position: relative;
+}
 img{
     width:50px;
     height:50px;
 }
+
+.add_review{
+    border : 2px solid blue;
+    padding: 15px;
+    background-color: aqua;
+    text-decoration: none;
+}
+
+.review_page{
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+}
+
 </style>
 {% load static %}
     <img src="{{place.image}}">
@@ -10,7 +28,18 @@ img{
     <h2>place subject:{{place.subject}}</h2>
 
     <h2>place Link:{{place.link}}</h2>
-
+    <h1>place id:{{place.p_id}}</h1>
+    <a onclick="open_review()" class="add_review">Add Review</a>
+    <div class="review_page">
+        <form action="add_review" method="POST">
+            {% csrf_token %}
+            <input type="text" name="p_id" value={{place.p_id}} style="visibility:hidden;">
+            Tags: <input type="text" name="tags">
+            content: <input type="text" name="content">
+            pics: <input type="file" name="images" multiple>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
     <h1>Reviews</h1>
     {% for review in reviews%}
         <h2>Reviewer Name:{{review.user_name}}</h2>
@@ -22,7 +51,7 @@ img{
         {% endfor %}
         <h2>Review_pics:</h2>
         {%for pic in review.r_pic%}
-            <img style="width:50px,height:50px;" src="{{pic}}">
+            <img src="{{pic}}">
         {%empty%}
             <h2>No review pics</h2>
         {% endfor %}
@@ -30,3 +59,10 @@ img{
         <h2>Liked:{{review.liked}}</h2>
         <h1>===================================</h1>
     {%endfor%}
+
+    <script>
+        function open_review(){
+            var rev = document.querySelector(".review_page");
+            rev.style.display = "block";
+        }
+    </script>
