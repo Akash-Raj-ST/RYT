@@ -155,12 +155,12 @@ def review(request):
                         "liked": liked
                     }
                     all_data.append(data)
-                f_data = {"message": "Reviews Fetched Successfully", "data": all_data}
+                data = {"message": "Reviews Fetched Successfully", "data": all_data}
             else:
                 msg = "No reviews yet"
                 data = {"message": msg, "data": None}
             print(all_data)
-            return Response(f_data, status=status.HTTP_202_ACCEPTED)
+            return Response(data, status=status.HTTP_202_ACCEPTED)
         else:
             msg = "Place not found"
         return Response({"message": msg}, status=status.HTTP_401_UNAUTHORIZED)
