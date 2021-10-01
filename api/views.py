@@ -4,21 +4,54 @@ from rest_framework import status
 from .serializer import AccountsSerializer, PlacesSerializer, ReviewSerializer, Review_likeSerializer, Review_picSerializer, Review_tagSerializer
 from .models import Accounts, Places, Review, Review_like, Review_pic, Review_tag
 
+from rest_framework.authtoken.models import Token
+
+def check_auth(request):
+    try:
+        user_id = request.data['user_id']
+        token = request.headers["token"]
+    except:
+        print("user_id and token needed")
+        return False
+
+    error = False
+    if not user_id:
+        print("Need credentials")
+        error = True
+    if not token:
+        print("token needed")
+        error = True
+
+    if not error:
+        user_obj = Accounts.objects.filter(user_id=user_id)
+        if user_obj.exists():
+            r_token = Token.objects.filter(user=user_obj[0])
+            if r_token.exists():
+                if r_token[0].key == token:
+                    return True
+                else:
+                    print("token doesnt match")
+            else:
+                print("Token doesnt exist")
+        else:
+            print("User doesnt exist")
+    
+    return False
 
 @api_view(["POST"])
 def login(request):
     if request.method == "POST":
         username = request.data['username']
         password = request.data['password']
-        print("from api: ",username,password)
         user_obj = Accounts.objects.filter(username=username)
         if user_obj.exists():
             user_obj = Accounts.objects.get(username=username)
+            token,created = Token.objects.get_or_create(user=user_obj)
+            token_key = token.key
             ret_pass = user_obj.password
             if ret_pass == password:
                 user_id = user_obj.user_id
-                request.session["id"] = user_id
-                data = {"message": "Login Successful", "user_id": user_id}
+                data = {"message": "Login Successful", "user_id": user_id,"key":token_key}
                 return Response(data, status=status.HTTP_202_ACCEPTED)
         data = {"message": "Login Failed"}
         return Response(data, status=status.HTTP_401_UNAUTHORIZED)
@@ -91,12 +124,8 @@ def places(request, place_id):
 
 @api_view(["GET", "POST"])
 def review(request):
+    logged = check_auth(request)
     if request.method == "GET":
-        try:
-            if request.session['id']:
-                logged = True
-        except:
-            logged = False
 
         place_id = request.data["p_id"] #place_id from payload
 
@@ -169,12 +198,6 @@ def review(request):
         place_obj = Places.objects.filter(p_id=request.data["p_id"])
         msgs = []
         if place_obj.exists():
-            logged = False
-            try:
-                if request.session['id']:
-                    logged = True
-            except:
-                logged = False
             if logged:
                 #data for review table
                 review_data = {
@@ -253,11 +276,22 @@ def review(request):
 
 @api_view(["GET"])
 def logout(request):
-    msg = None
-    if request.method == "GET":
-        try:
-            del request.session["id"]
-            msg = {"Logged out"}
-        except:
-            msg = {"Not logged in"}
+
+    token = request.headers["token"]
+    username = request.data["username"]
+    password = request.data["password"]
+
+    user_obj = Accounts.objects.filter(username=username,password=password)
+    if user_obj.exists():
+        token_key = Token.objects.filter(user=user_obj[0])
+        if token_key.exists():
+            if token_key[0].key==token:
+                token_key[0].delete()
+                msg = "Logged out successful"
+            else:
+                msg = "Token key wrong"
+        else:
+            msg = "Not logged in"
+    else:
+        msg = "user not found"
     return Response(msg, status=status.HTTP_202_ACCEPTED)
