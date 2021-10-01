@@ -1,19 +1,19 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .serializer import UserSerializer, PlacesSerializer, ReviewSerializer, Review_likeSerializer, Review_picSerializer, Review_tagSerializer
-from .models import User, Places, Review, Review_like, Review_pic, Review_tag
+from .serializer import AccountsSerializer, PlacesSerializer, ReviewSerializer, Review_likeSerializer, Review_picSerializer, Review_tagSerializer
+from .models import Accounts, Places, Review, Review_like, Review_pic, Review_tag
 
 
 @api_view(["POST"])
 def login(request):
     if request.method == "POST":
-        user_name = request.data['user_name']
+        username = request.data['username']
         password = request.data['password']
-        print("from api: ",user_name,password)
-        user_obj = User.objects.filter(user_name=user_name)
+        print("from api: ",username,password)
+        user_obj = Accounts.objects.filter(username=username)
         if user_obj.exists():
-            user_obj = User.objects.get(user_name=user_name)
+            user_obj = Accounts.objects.get(username=username)
             ret_pass = user_obj.password
             if ret_pass == password:
                 user_id = user_obj.user_id
@@ -27,21 +27,21 @@ def login(request):
 @api_view(["POST"])
 def register(request):
     if request.method == "POST":
-        user_name = request.data['user_name']
+        username = request.data['username']
         email = request.data['email']
 
         error = False
         msgs = []
-        if User.objects.filter(user_name=user_name).exists():
+        if Accounts.objects.filter(username=username).exists():
             msgs.append("Username Taken")
             error = True
-        if User.objects.filter(email=email):
+        if Accounts.objects.filter(email=email):
             msgs.append("Email already used")
             error = True
         if error:
             data = {"message": msgs}
         else:
-            serializer = UserSerializer(data=request.data)
+            serializer = AccountsSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 data = {"message": "Account created Successfully"}
@@ -148,7 +148,7 @@ def review(request):
                         "likes": review.likes,
                         "p_id": review.p_id.p_id,
                         "u_id": review.u_id.user_id,
-                        "user_name":review.u_id.user_name,
+                        "username":review.u_id.username,
                         "user_dp":user_dp,
                         "r_pic":images,
                         "tags": tags,

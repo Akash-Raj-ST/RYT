@@ -5,7 +5,6 @@ from django.core.files.storage import FileSystemStorage
 import json
 import requests
 
-from api.models import User
 # Create your views here.
 
 
@@ -31,11 +30,11 @@ def login(request):
         return render(request, "login.html")
 
     elif request.method == 'POST':
-        user_name = request.POST.get('user_name')
+        username = request.POST.get('username')
         password = request.POST.get('password')
-        print(user_name,password)
+        print(username,password)
         payload = json.dumps({
-            "user_name": user_name,
+            "username": username,
             "password": password
         })
         
@@ -51,13 +50,13 @@ def login(request):
 def register(request):
     if request.method == "POST":
         name = request.POST.get('name')
-        user_name = request.POST.get('user_name')
+        username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
         
         payload = {
                 "name" : name,
-                "user_name": user_name,
+                "username": username,
                 "email": email,
                 "password": password
         }

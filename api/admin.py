@@ -1,9 +1,9 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import User, Places, Review, Place_map, Review_like, Review_pic, Review_tag
+from .models import Accounts, Places, Review, Place_map, Review_like, Review_pic, Review_tag
 # Register your models here.
-admin.site.register(User)
+admin.site.register(Accounts)
 admin.site.register(Places)
 admin.site.register(Place_map)
 
