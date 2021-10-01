@@ -42,7 +42,6 @@ def login(request):
         response = request_api("login",payload)
         response_json = json.loads(response.text)
         if response.ok:
-            request.session['id'] = response_json['user_id']
             return redirect(home)
         else:
             messages.error(request, response_json['message'])
@@ -110,3 +109,19 @@ def place(request,p_id):
             review_data = response_json["data"]
             return render(request,"place.html",{"place":place_data,"reviews":review_data })
         return HttpResponse("Failed")
+    
+def add_review(request):
+    if request.method == "POST":
+
+        payload ={
+            "p_id":request.POST.get("p_id"),
+            "content":request.POST.get("content"),
+            "tags":request.POST.get("tags"),
+        }
+        pics = request.FILES.getlist("images")
+
+        response = request_api_files("review",payload,files=pics,method="POST")
+        # if response.ok:
+        response_json = json.loads(response.text)
+        return HttpResponse(response_json["message"])
+        # return HttpResponse("Failed adding review")
