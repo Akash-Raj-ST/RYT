@@ -138,14 +138,13 @@ def review(request):
 
                     #Checking whether the user has liked the review
                     if logged:
+                        liked = False
                         like_objs = Review_like.objects.filter(r_id=review.r_id)
                         if like_objs.exists():
                             for like_obj in like_objs:
-                                if like_obj.u_id.user_id == request.session['id']:
+                                if like_obj.u_id.user_id == int(request.data["user_id"]):
                                     liked = True
                                     break
-                                else:
-                                    liked = False
                         else:
                             liked = False
                     else:
@@ -202,7 +201,7 @@ def review(request):
                 #data for review table
                 review_data = {
                     "p_id": request.data["p_id"],
-                    "u_id": request.session['id'],
+                    "u_id": request.data['user_id'],
                     "content": request.data["content"],
                 }              
                 review_serializer = ReviewSerializer(data=review_data)
