@@ -7,11 +7,16 @@ import requests
 
 # Create your views here.
 
+token = None
+user_id = None
 
 def request_api_files(sub_url, payload=None, files=[], method="POST"):
     url = "http://127.0.0.1:8000/api/"+sub_url
 
-    headers = {"Accept": "*/*"}
+    headers = {
+        "Accept": "*/*",
+        "token":token,
+    }
 
     response = requests.request(method, url,headers=headers, data=payload,files=files)
 
@@ -19,7 +24,7 @@ def request_api_files(sub_url, payload=None, files=[], method="POST"):
 
 def request_api(sub_url, payload=None,method="POST"):
     url = "http://127.0.0.1:8000/api/"+sub_url
-    headers = {'Content-Type': 'application/json'}
+    headers = {'Content-Type': 'application/json','token':token}
 
     response = requests.request(method, url, headers=headers, data=payload)
 
@@ -41,6 +46,9 @@ def login(request):
         response = request_api("login",payload)
         response_json = json.loads(response.text)
         if response.ok:
+            global token,user_id
+            token = response_json["key"]
+            user_id = response_json["user_id"]
             return redirect(home)
         else:
             messages.error(request, response_json['message'])
@@ -100,7 +108,8 @@ def place(request,p_id):
         place_data = response_json["data"]
         print(response_json)
         payload = json.dumps({
-                "p_id":p_id
+                "p_id":p_id,
+                "user_id":user_id
             })
         response = request_api("review",payload,method="GET")
         if response.ok:
@@ -116,11 +125,15 @@ def add_review(request):
             "p_id":request.POST.get("p_id"),
             "content":request.POST.get("content"),
             "tags":request.POST.get("tags"),
+            "user_id":user_id
         }
         pics = request.FILES.getlist("images")
-
-        response = request_api_files("review",payload,files=pics,method="POST")
-        # if response.ok:
-        response_json = json.loads(response.text)
-        return HttpResponse(response_json["message"])
-        # return HttpResponse("Failed adding review")
+        pic_files = []
+        for pic in pics:
+            pic_files.append(("r_pic",pic))
+        print(pic_files)
+        response = request_api_files("review",payload=payload,files=pic_files,method="POST")
+        if response.ok:
+            response_json = json.loads(response.text)
+            return HttpResponse(response_json["message"])
+        return HttpResponse("Failed adding review")
