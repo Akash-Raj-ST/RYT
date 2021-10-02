@@ -31,7 +31,7 @@ img{
     <h1>place id:{{place.p_id}}</h1>
     <a onclick="open_review()" class="add_review">Add Review</a>
     <div class="review_page">
-        <form action="add_review" method="POST">
+        <form action="add_review" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="text" name="p_id" value={{place.p_id}} style="visibility:hidden;">
             Tags: <input type="text" name="tags">
@@ -42,7 +42,7 @@ img{
     </div>
     <h1>Reviews</h1>
     {% for review in reviews%}
-        <h2>Reviewer Name:{{review.user_name}}</h2>
+        <h2>Reviewer Name:{{review.username}}</h2>
         <img src="{{review.user_dp}}" alt="no_dp">
         {%for tag in review.tags%}
             <h2>Tags:{{tag}}</h2>
