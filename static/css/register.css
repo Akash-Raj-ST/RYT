@@ -15,8 +15,7 @@ html{
 }
 
 body{
-    display: flex;
-    flex-direction: row;
+ 
     position: relative;
 }
 
@@ -51,10 +50,6 @@ body{
 .right{
     width: 50%;
     /* padding: 10px; */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 .in_right{
@@ -97,8 +92,7 @@ body{
 
 .login_redirect{
     font-size: 0.3rem;
-    display: flex;
-    flex-direction: row;
+
 }
 
 .login_link{

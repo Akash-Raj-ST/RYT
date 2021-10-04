@@ -16,25 +16,14 @@ html{
     box-sizing: border-box;
 }
 
-body{
-    display: flex;
-    flex-direction: row;
-}
-
-
 .left{
     width: fit-content;
     padding-left: 15%;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
 }
 
 .left_top{
-    display: flex;
-    flex-direction: column;
     width: 100%;
-
     margin-bottom: 40%;
 }
 
@@ -46,12 +35,7 @@ body{
     font-size: 0.55rem;
 }
 
-
-
 .button{
-    display: flex;
-    justify-content: center;
-    align-items: center;
     margin: 10px;
     font-size: 0.35rem;
 }
@@ -71,9 +55,6 @@ body{
 
 .right{
     width: 60%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 @media only screen and (max-width:600px) {

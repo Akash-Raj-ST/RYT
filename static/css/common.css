@@ -67,3 +67,20 @@ form{
     display: flex;
     flex-direction: column;
 }
+
+/* flex */
+.flex{
+    display: flex;
+}
+
+.center{
+    align-items: center;
+    justify-content: center;
+}
+.row{
+    flex-direction: row;
+}
+
+.column{
+    flex-direction: column;
+}

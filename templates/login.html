@@ -11,10 +11,10 @@
 
     <title>RYT</title>
 </head>
-<body>
-    <section class="left">
+<body class="flex row">
+    <section class="left flex column">
 
-        <div class="left_top">
+        <div class="left_top flex column">
             <h1 class="title">RYT</h1>
             <h3 class="full_form">Review Your Tour</h3>
         </div>
@@ -25,16 +25,16 @@
             <input type="password" id="password" class="input_field" name="password" placeholder="Password">
 
             <div class="selection">
-                <button type="submit" class="button" id="visit">Visit</button>
+                <button type="submit" class="button flex center" id="visit">Visit</button>
                 <h4 id="or">OR</h4>
             </div>         
         </form>
         <a href="register" class="selection">
-            <button type="submit" class="button" id="sign_up">Sign Up</button>
+            <button type="submit" class="button flex center" id="sign_up">Sign Up</button>
         </a>
     </section>
 
-    <section class="right">
+    <section class="right flex center">
         <img id="index_dp" src="{% static 'img/index_img.svg' %}" alt="Wallpaper">
     </section>
 </body>
