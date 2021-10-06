@@ -38,6 +38,55 @@ def check_auth(request):
     
     return False
 
+def get_rev_images(r_id):
+    images = []
+    img_objs = Review_pic.objects.filter(r_id=r_id)
+    if img_objs.exists():
+        for img_obj in img_objs:
+            images.append(img_obj.r_pic.url)
+    return images
+
+def get_rev_tags(r_id):
+    tags = []
+    tag_objs = Review_tag.objects.filter(r_id=r_id)
+    if tag_objs.exists():
+        for tag_obj in tag_objs:
+            tags.append(tag_obj.tags)
+    return tags
+
+def is_liked(user_id,r_id):
+    liked = False
+    like_objs = Review_like.objects.filter(r_id=r_id)
+    if like_objs.exists():
+        for like_obj in like_objs:
+            if like_obj.u_id.user_id == int(user_id):
+                liked = True
+                break
+            else:
+                liked = False
+    return liked
+
+def get_review_data(user_rev_objs,user_id,liked_rev=False):
+    rev_data = []
+    for user_rev_obj in user_rev_objs:
+        rev_id = user_rev_obj.r_id
+        rev_images = get_rev_images(r_id=rev_id)
+        rev_tags = get_rev_tags(r_id=rev_id)
+        #liked can be skipped for user liked request function call
+        if liked_rev:
+            liked = True
+        else:
+            liked = is_liked(user_id=user_id,r_id=rev_id)
+
+        rev = {
+            "r_id":rev_id,
+            "images":rev_images,
+            "tags":rev_tags,
+            "liked":liked
+        }
+        rev_data.append(rev)
+    return rev_data
+    
 @api_view(["POST"])
 def login(request):
     if request.method == "POST":
@@ -82,6 +131,31 @@ def register(request):
             else:
                 data = {"message": "Not Valid"}
         return Response(data, status=status.HTTP_401_UNAUTHORIZED)
+
+@api_view(["GET"])
+def profile(request):
+    if check_auth(request):
+        #profile
+        user_id = request.data["user_id"]
+        acc_obj = Accounts.objects.get(user_id=user_id)
+        data = {
+            "user_id": user_id,
+            "user_name":acc_obj.username,
+            "dp": acc_obj.dp.url,
+        }
+
+        #my reviews
+        user_rev_objs = Review.objects.filter(u_id = acc_obj)
+        data["my_review"] = get_review_data(user_rev_objs,user_id,liked_rev=False)
+        
+        #like reviews
+        liked_rev_objs = Review_like.objects.filter(u_id = acc_obj)
+        user_rev_objs = [x.r_id for x in liked_rev_objs]
+        data["liked_review"] = get_review_data(user_rev_objs,user_id,liked_rev=True)
+        res_data={"message":"successful","data":data}
+        return Response(res_data,status=status.HTTP_202_ACCEPTED)
+    res_data={"message":"Failed"}
+    return Response(res_data,status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(["GET"])
 def all_place_cat(request):
@@ -159,31 +233,15 @@ def review(request):
 
                     #Checking whether the user has liked the review
                     if logged:
-                        liked = False
-                        like_objs = Review_like.objects.filter(r_id=review.r_id)
-                        if like_objs.exists():
-                            for like_obj in like_objs:
-                                if like_obj.u_id.user_id == int(request.data["user_id"]):
-                                    liked = True
-                                    break
-                        else:
-                            liked = False
+                       liked = is_liked(request.data["user_id"],review.r_id)
                     else:
                         liked = False
 
                     #Fecthing the tags of review
-                    tags = []
-                    tag_objs = Review_tag.objects.filter(r_id=review.r_id)
-                    if tag_objs.exists():
-                        for tag_obj in tag_objs:
-                            tags.append(tag_obj.tags)
+                    tags = get_rev_tags(review.r_id)
 
                     #fetching the images of review
-                    images = []
-                    img_objs = Review_pic.objects.filter(r_id=review.r_id)
-                    if img_objs.exists():
-                        for img_obj in img_objs:
-                            images.append(img_obj.r_pic.url)
+                    images = get_rev_images(review.r_id)
 
                     # fetch user_dp
                     if review.u_id.dp:
