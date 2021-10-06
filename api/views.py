@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .serializer import AccountsSerializer, PlacesSerializer, ReviewSerializer, Review_likeSerializer, Review_picSerializer, Review_tagSerializer
-from .models import Accounts, Places, Review, Review_like, Review_pic, Review_tag
+from .models import Accounts, Places, Place_map, Review, Review_like, Review_pic, Review_tag
 
 from rest_framework.authtoken.models import Token
 
@@ -97,6 +97,23 @@ def all_place_cat(request):
         data = {"message": "Successful", "data": data}
         return Response(data, status=status.HTTP_202_ACCEPTED)
 
+def get_subplace(place_id):
+    sub_places = Place_map.objects.filter(pm_id=place_id)
+    sp_all = []
+    if sub_places.exists():
+        for sub_place in sub_places:
+            sub_data = {}
+            sp_obj= sub_place.spm_id
+            sub_data["p_id"] = sp_obj.p_id
+            sub_data["place"] = sp_obj.place_name
+            sub_data["image"] = sp_obj.image.url
+            sub_data["subject"] = sp_obj.subject
+            sub_data["place_type"] = sp_obj.place_type
+            sp_all.append(sub_data)
+    
+        return sp_all
+    return None
+
 @api_view(["GET"])
 def places(request, place_id):
     if request.method == "GET":
@@ -112,6 +129,10 @@ def places(request, place_id):
                 "subject":place_obj.subject,
                 "place_type":place_obj.place_type
             }
+
+            # get subplaces
+            subplaces = get_subplace(place_id)
+            data["sub_place"] = subplaces
             # serializer = PlacesSerializer(place_obj)
             # data = {"message": "Successful", "data": serializer.data}
             data = {"message": "Successful", "data": data}
