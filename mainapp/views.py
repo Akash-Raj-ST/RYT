@@ -87,6 +87,19 @@ def register(request):
     elif request.method == "GET":
         return render(request,"register.html")
 
+def profile(request):
+    payload = json.dumps(
+        {
+            "user_id":user_id
+        }
+    )
+    response = request_api("profile",payload,method="GET")
+    if response.ok:
+        response_json = json.loads(response.text)
+        return render(request,"profile.html",{"data":response_json["data"]})
+    else:
+        return redirect("login")
+
 def home(request):
     if request.method == "GET":
         response = request_api("home",method="GET")
