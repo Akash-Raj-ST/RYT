@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="{%static 'css/home.css' %}">
     <title>RYT</title>
 </head>
-<body>
+<body>  
+        <a href="{%url 'profile'%}">Profile</a>
         <div class="container">
             {% for p_type,value in data.items%}
             <div class="section">
