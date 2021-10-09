@@ -1,0 +1,15 @@
+{% load static %}
+<div class="header flex row">
+    <div class="logo flex center">
+        <h1 class="title pointer">RYT</h1>
+    </div>
+    <div class="search_bar flex center">
+        <input type="text" class="search" placeholder="search...">
+        <img src="{%static 'img/search.svg' %}" alt="s">
+    </div>
+    <div class="profile ">
+        <a href="{%url 'profile'%}" class="flex center">
+            <img src="{%static 'img/HoodyAnime.jpg' %}" alt="dp">
+        </a>
+    </div>
+</div>
