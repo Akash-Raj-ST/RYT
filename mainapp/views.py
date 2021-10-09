@@ -7,10 +7,8 @@ import requests
 
 # Create your views here.
 
-token = None
-user_id = None
 
-def request_api_files(sub_url, payload=None, files=[], method="POST"):
+def request_api_files(sub_url, payload=None, files=[], method="POST",token=None):
     url = "http://127.0.0.1:8000/api/"+sub_url
 
     headers = {
@@ -22,7 +20,7 @@ def request_api_files(sub_url, payload=None, files=[], method="POST"):
 
     return response
 
-def request_api(sub_url, payload=None,method="POST"):
+def request_api(sub_url, payload=None,method="POST",token=None):
     url = "http://127.0.0.1:8000/api/"+sub_url
     headers = {'Content-Type': 'application/json','token':token}
 
@@ -46,9 +44,8 @@ def login(request):
         response = request_api("login",payload)
         response_json = json.loads(response.text)
         if response.ok:
-            global token,user_id
-            token = response_json["key"]
-            user_id = response_json["user_id"]
+            request.session["token"] = response_json["key"]
+            request.session["user_id"] = response_json["user_id"]
             return redirect(home)
         else:
             messages.error(request, response_json['message'])
@@ -90,10 +87,10 @@ def register(request):
 def profile(request):
     payload = json.dumps(
         {
-            "user_id":user_id
+            "user_id":request.session["user_id"]
         }
     )
-    response = request_api("profile",payload,method="GET")
+    response = request_api("profile",payload,method="GET",token=request.session["token"])
     if response.ok:
         response_json = json.loads(response.text)
         return render(request,"profile.html",{"data":response_json["data"]})
@@ -102,7 +99,7 @@ def profile(request):
 
 def home(request):
     if request.method == "GET":
-        response = request_api("home",method="GET")
+        response = request_api("home",method="GET",token=request.session["token"])
         response_json = json.loads(response.text)
         data = response_json["data"]
         # print()
@@ -116,19 +113,19 @@ def home(request):
 
 def place(request,p_id):
     if request.method == "GET":
-        response = request_api(f"places/{p_id}",method="GET")
+        response = request_api(f"places/{p_id}",method="GET",token=request.session["token"])
         response_json = json.loads(response.text)
         place_data = response_json["data"]
         print(response_json)
         payload = json.dumps({
                 "p_id":p_id,
-                "user_id":user_id
+                "user_id":request.session["user_id"]
             })
-        response = request_api("review",payload,method="GET")
+        response = request_api("review",payload,method="GET",token=request.session["token"])
         if response.ok:
             response_json = json.loads(response.text)
             review_data = response_json["data"]
-            return render(request,"place.html",{"place":place_data,"reviews":review_data })
+            return render(request,"place.html",{"place":place_data,"reviews":review_data,"user_id":request.session["user_id"] })
         return HttpResponse("Failed")
     
 def add_review(request):
@@ -138,7 +135,7 @@ def add_review(request):
             "p_id":request.POST.get("p_id"),
             "content":request.POST.get("content"),
             "tags":request.POST.get("tags"),
-            "user_id":user_id
+            "user_id":request.session["user_id"]
         }
         pics = request.FILES.getlist("images")
         pic_files = []
