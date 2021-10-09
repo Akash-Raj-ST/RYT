@@ -206,7 +206,7 @@ def places(request, place_id):
 
             # get subplaces
             subplaces = get_subplace(place_id)
-            data["sub_place"] = subplaces
+            data["sub_places"] = subplaces
             # serializer = PlacesSerializer(place_obj)
             # data = {"message": "Successful", "data": serializer.data}
             data = {"message": "Successful", "data": data}
@@ -350,6 +350,58 @@ def review(request):
             "message": msg
         }
         return Response(data, status=status.HTTP_401_UNAUTHORIZED)
+
+@api_view(["POST"])
+def like(request,r_id):
+    logged = False
+    user_id = request.data["user_id"]
+
+    if user_id:
+        if Accounts.objects.filter(user_id=user_id).exists():
+            logged = True
+
+    if logged:
+        u_id = request.data["user_id"]
+
+        review_obj = Review.objects.filter(r_id=r_id).first()
+        liked = Review_like.objects.filter(u_id=u_id,r_id=r_id).first()
+
+        if review_obj:
+            tot_likes = review_obj.likes
+
+            if liked: #already liked so dislike
+                print("Alreay Liked so dislike")
+                liked.delete()
+                likes = tot_likes - 1
+            else:
+                print("Not Liked so liking")
+                likes = tot_likes + 1
+                like_data = {
+                    "r_id":r_id,
+                    "u_id":u_id
+                }
+                like_serializer = Review_likeSerializer(data=like_data)
+                if like_serializer.is_valid():
+                    like_serializer.save()
+                    
+            review_obj.likes = likes
+            review_obj.save()
+            msg = "Success"
+            data = {
+                "message":msg,
+                "likes":likes
+            }
+
+            return Response(data,status=status.HTTP_200_OK)
+        else:
+            msg = "Review does not exist"
+    else:
+        msg = "login to Like"
+
+    data = {
+            "message":msg,
+        }
+    return Response(data,status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET"])
