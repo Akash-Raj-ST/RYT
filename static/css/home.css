@@ -1,15 +1,24 @@
+html{
+    font-size: 50px;
+}
 .container{
     display: flex;
     flex-direction: column;
+    padding-top: 80px;
+    margin: 0px 5px 0 25px;
 }
 
 .section{
     width: 100%;
     height: fit-content;
+    box-sizing: border-box;
   
 }
 .type{
-    text-decoration: underline;
+    font-size: 0.5rem;
+    color: var(--sec_col);
+    font-weight: bold;
+    text-transform: capitalize;
 }
 
 .places{
@@ -20,8 +29,17 @@
 .place_container{
     height: 200px;
     width: 100px;
-    border: 2px solid black;
     margin: 20px;
+    object-fit: cover;
+    text-decoration: none;
+    padding: 5px;
+
+}
+
+.place_container:hover{
+    background-color: #DFA7CC;
+    padding: 5px;
+    border-radius: 10px;
 }
 
 .place_img{
@@ -30,4 +48,9 @@
 }
 .place_name{
     width: 100%;
+    font-size: 0.4rem;
+    color: #4A5DA0;
+    font-weight: bold;
+    text-transform: capitalize;
+    text-align: center;
 }
