@@ -9,5 +9,6 @@ urlpatterns = [
     path('profile',views.profile),
     path('places/<place_id>', views.places),
     path('review', views.review),
+    path('like/<r_id>',views.like),
     path('logout', views.logout),
 ]
