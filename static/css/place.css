@@ -1,0 +1,80 @@
+.place_container{
+    padding-top: 60px;
+    z-index: 5;
+}
+
+.cover{
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.cover_img{
+    box-sizing: border-box;
+    width: 95%;
+    height: 80vh;
+    margin: 5px;
+    object-fit: cover;
+    border-radius: 15px;
+    position: relative;
+}
+
+.place_name{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color:white;
+    font-size: 1rem;
+    transform: translate(-50%,-50%);
+    border-radius: 15px;
+    background-color: #EC6969;
+    padding: 5px;
+}
+
+.place_sub{
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    color:white;
+    font-size: 0.4rem;
+    transform: translate(-50%,-50%);
+
+    border-radius: 15px;
+    background-color: #EC6969;
+    padding: 5px;
+}
+
+.info{
+    position: absolute;
+    top: 13%;
+    left: 5%;
+    padding: 5px;
+    border-radius: 50px;
+    background-color: #6B8BDD;
+}
+
+.rev_choi{
+    margin: 5px;
+    width: 100%;
+    font-size: 0.4rem;
+    transform: translate(-5%,-5%);
+    z-index: 1;
+}
+
+.rev_choi h3{
+    margin: 0 15px;
+    padding: 10px;
+    border-radius: 15px;
+}
+.rev:hover,.spot:hover{
+    background-color: #DFA7CC !important;
+}
+
+.rev_choi .rev{
+    background-color: #DFA7CC;
+    text-decoration: underline;
+}
+
+.add_rev{
+    margin: 5px 0 0 35px;
+    z-index: 2;
+}
