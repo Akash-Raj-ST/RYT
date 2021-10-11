@@ -15,7 +15,8 @@
     'desc  image'
     'type image';
 
-    padding: 5px;   
+    padding: 5px; 
+    margin-bottom: 10px;  
 }
 
 .sub_place_name{
