@@ -93,7 +93,7 @@ def profile(request):
     response = request_api("profile",payload,method="GET",token=request.session["token"])
     if response.ok:
         response_json = json.loads(response.text)
-        return render(request,"profile.html",{"data":response_json["data"]})
+        return render(request,"profile.html",{"data":response_json["data"],"user_id":request.session["user_id"] })
     else:
         return redirect("login")
 
