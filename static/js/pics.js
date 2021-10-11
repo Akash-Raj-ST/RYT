@@ -7,7 +7,7 @@ for(k=0;k<posts.length;k++){
 
 // e -> points to the required html
 // n -> -1 or 1 depending on forward or backward
-// l -> holds the num of the post
+// l -> holds the id of the post
 
 function show_slide(e,n,l){
     hide(e);
