@@ -78,10 +78,21 @@ def get_review_data(user_rev_objs,user_id,liked_rev=False):
         else:
             liked = is_liked(user_id=user_id,r_id=rev_id)
 
+        #check dp exist
+        if user_rev_obj.u_id.dp:
+            dp = user_rev_obj.u_id.dp.url
+        else:
+            dp=None
+
         rev = {
             "r_id":rev_id,
-            "images":rev_images,
+            "u_id":user_id,
+            "username":user_rev_obj.u_id.username,
+            "user_dp":dp,
+            "content":user_rev_obj.content,
+            "r_pic":rev_images,
             "tags":rev_tags,
+            "likes": user_rev_obj.likes,
             "liked":liked
         }
         rev_data.append(rev)
@@ -147,11 +158,14 @@ def profile(request):
         #my reviews
         user_rev_objs = Review.objects.filter(u_id = acc_obj)
         data["my_review"] = get_review_data(user_rev_objs,user_id,liked_rev=False)
-        
+        data["tot_reviews"] = user_rev_objs.count()
+
         #like reviews
         liked_rev_objs = Review_like.objects.filter(u_id = acc_obj)
         user_rev_objs = [x.r_id for x in liked_rev_objs]
         data["liked_review"] = get_review_data(user_rev_objs,user_id,liked_rev=True)
+        data["tot_likes"] = Review_like.objects.filter(r_id__in=user_rev_objs).count()
+
         res_data={"message":"successful","data":data}
         return Response(res_data,status=status.HTTP_202_ACCEPTED)
     res_data={"message":"Failed"}
