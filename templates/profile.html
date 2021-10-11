@@ -1,1 +1,57 @@
-Profile page
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/post.css' %}">
+
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <div class="user_info">
+            <h3 class="user_name">{{data.user_name}}</h3>
+            <h4 class="reviews flex center">{{data.tot_reviews}}&nbspReviews</h4>
+            <div class="likes flex row center">
+                <img src="{% static 'img/heart_fill.png' %}">
+                <h4>{{data.tot_likes}}</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="user_profile">
+        <img src="{{data.dp}}">
+    </div>
+
+    <div class="like_and_my flex row center">
+        <h3 class="my_rev pointer flex center" onclick="focus_rev(1)">My reveiws</h3>
+        <h3 class="like_rev pointer flex center" onclick="focus_rev(2)">Liked Review</h3>
+    </div>
+
+    <div class="all_post all_my_review flex column center">
+       {% for review in data.my_review%}
+            {% include 'review.html' %}
+        {%empty%}
+            <h4>No reviews Yet!!!<h4>
+        {% endfor %}
+    </div>
+
+    <div class="all_post all_like_review flex column center">
+       {% for review in data.liked_review%}
+            {% include 'review.html' %}
+        {%empty%}
+            <h4>No reviews Yet!!!<h4>
+        {% endfor %}
+    </div>
+
+    <script src="{% static 'js/profile.js' %}"></script>
+    <script src="{% static 'js/like.js' %}"></script>
+    <script src="{% static 'js/pics.js' %}"></script>
+
+</body>
+</html>
