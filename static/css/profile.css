@@ -1,0 +1,93 @@
+/* .top{
+    width: 100%;
+    height: fit-content;
+} */
+
+.user_info{
+    display: grid;
+    grid-template-columns: 25% 25%;
+    grid-template-rows: 25% 25%;
+    
+    grid-template-areas: 
+    'name name'
+    'rev likes';
+    
+    width:100%;
+    height: 250px;
+    background-color: #F98F8F;
+    position: relative;
+
+    margin-bottom: 70px;
+}
+
+.user_name{
+    grid-area: name;
+    margin: 5px;
+    font-size: 0.4rem;
+}
+
+.reviews{
+    grid-area: rev;
+    margin: 5px;
+    font-size: 0.4rem;
+}
+
+.likes{
+    grid-area: likes;
+    margin: 5px;
+    font-size: 0.4rem;
+}
+
+.likes img{
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+}
+
+.user_profile{
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    background-color:rebeccapurple;
+    position: absolute;
+    top: 15%;
+    left: 10%;
+}
+
+.user_profile img{
+    width: 150px;
+    height: 150px;
+    object-fit:cover;
+
+}
+
+.like_and_my{
+    width: 70%;
+    height: 50px;
+    justify-content: space-evenly;
+    border-radius: 15px;
+    overflow: hidden;
+    margin: auto;
+    font-size: 0.4rem;
+}
+
+.like_and_my h3{
+    width: 50%;
+    height: 100%;
+}
+
+.my_rev{
+    border-right: 2px solid black;
+    background-color: #1879EB;
+}
+
+.like_rev{
+    border-left: 2px solid black;
+    background-color: #A3C1E4;
+}
+
+.like_and_my h3:hover{
+    background-color: #1879EB !important;
+}
+
