@@ -2,7 +2,8 @@
             <div class="post" id="review-{{review.r_id}}">
                 <section class="post_header">
                     <img src="{{review.user_dp}}" alt="" class="dp">
-                    <h3 class="username">{{review.username}}</h3>
+                    <h3 class="username" onclick="window.location='{% url 'profile' user_id=review.u_id %}';">{{review.username}}</h3>
+                    
                     <div class="tags">
                         {%for tag in review.tags%}
                             <h3 class="tag">{{tag}}</h3>
@@ -12,10 +13,12 @@
     
                 <section class="post_middle">
                     <div class="pics">
-                        <div class="nav_b">
-                            <img src="{%static 'img/left_nav.svg'%}" class="nav" onclick="show_slide(this,-1,0)" alt="<-">
-                            <img src="{%static 'img/right_nav.svg'%}" class="nav" onclick="show_slide(this,1,0)" alt="->">
-                        </div>
+                        {%if review.r_pic%}
+                            <div class="nav_b">
+                                <img src="{%static 'img/left_nav.svg'%}" class="nav" onclick="show_slide(this,-1,0)" alt="<-">
+                                <img src="{%static 'img/right_nav.svg'%}" class="nav" onclick="show_slide(this,1,0)" alt="->">
+                            </div>
+                        {% endif %}
                         <div class="images">
                             {%for pic in review.r_pic%}
                                 <img src="{{pic}}" alt="img" class="post_pic">  

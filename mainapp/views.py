@@ -84,13 +84,13 @@ def register(request):
     elif request.method == "GET":
         return render(request,"register.html")
 
-def profile(request):
+def profile(request,user_id):
     payload = json.dumps(
         {
-            "user_id":request.session["user_id"]
+            "user_id": request.session["user_id"],
         }
     )
-    response = request_api("profile",payload,method="GET",token=request.session["token"])
+    response = request_api(f"profile/{user_id}",payload,method="GET",token=request.session["token"])
     if response.ok:
         response_json = json.loads(response.text)
         return render(request,"profile.html",{"data":response_json["data"],"user_id":request.session["user_id"] })
@@ -109,7 +109,7 @@ def home(request):
         #         print(place['id'],"\t",place['place_name'],"\t",place["img"])
         # print("--------------------")
         print(data)
-        return render(request,"home.html",{"data":data})
+        return render(request,"home.html",{"data":data,"user_id":request.session["user_id"]})
 
 def place(request,p_id):
     if request.method == "GET":

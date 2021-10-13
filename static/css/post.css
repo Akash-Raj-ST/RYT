@@ -138,7 +138,8 @@
 .review{
     font-size: 0.4rem;
     font-weight:500;
-    height: 200px;
+    height: fit-content;
+    max-height: 200px;
     overflow-y:scroll;
 }
 

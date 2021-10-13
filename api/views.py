@@ -18,9 +18,9 @@ def check_auth(request):
     if not user_id:
         print("Need credentials")
         error = True
-    if not token:
-        print("token needed")
-        error = True
+    # if not token:
+    #     print("token needed")
+    #     error = True
 
     if not error:
         user_obj = Accounts.objects.filter(user_id=user_id)
@@ -32,7 +32,8 @@ def check_auth(request):
                 else:
                     print("token doesnt match")
             else:
-                print("Token doesnt exist")
+                print("Token doesnt exist so not logged in")
+            return True
         else:
             print("User doesnt exist")
     
@@ -55,18 +56,14 @@ def get_rev_tags(r_id):
     return tags
 
 def is_liked(user_id,r_id):
-    liked = False
     like_objs = Review_like.objects.filter(r_id=r_id)
     if like_objs.exists():
         for like_obj in like_objs:
             if like_obj.u_id.user_id == int(user_id):
-                liked = True
-                break
-            else:
-                liked = False
-    return liked
+               return True
+    return False
 
-def get_review_data(user_rev_objs,user_id,liked_rev=False):
+def get_review_data(user_rev_objs,user_id,login_user,liked_rev=False):
     rev_data = []
     for user_rev_obj in user_rev_objs:
         rev_id = user_rev_obj.r_id
@@ -74,9 +71,9 @@ def get_review_data(user_rev_objs,user_id,liked_rev=False):
         rev_tags = get_rev_tags(r_id=rev_id)
         #liked can be skipped for user liked request function call
         if liked_rev:
-            liked = True
-        else:
-            liked = is_liked(user_id=user_id,r_id=rev_id)
+            user_id = user_rev_obj.u_id.user_id
+        
+        liked = is_liked(user_id=login_user,r_id=rev_id)
 
         #check dp exist
         if user_rev_obj.u_id.dp:
@@ -144,30 +141,35 @@ def register(request):
         return Response(data, status=status.HTTP_401_UNAUTHORIZED)
 
 @api_view(["GET"])
-def profile(request):
+def profile(request,user_id):
     if check_auth(request):
         #profile
-        user_id = request.data["user_id"]
-        acc_obj = Accounts.objects.get(user_id=user_id)
-        data = {
-            "user_id": user_id,
-            "user_name":acc_obj.username,
-            "dp": acc_obj.dp.url,
-        }
+        acc_obj = Accounts.objects.filter(user_id=user_id).first()
+        login_user = request.data["user_id"]
+        if acc_obj:
+            if acc_obj.dp:
+                dp = acc_obj.dp.url
+            else:
+                dp = None
+                
+            data = {
+                "user_name":acc_obj.username,
+                "dp": dp,
+            }
 
-        #my reviews
-        user_rev_objs = Review.objects.filter(u_id = acc_obj)
-        data["my_review"] = get_review_data(user_rev_objs,user_id,liked_rev=False)
-        data["tot_reviews"] = user_rev_objs.count()
+            #my reviews
+            user_rev_objs = Review.objects.filter(u_id = acc_obj)
+            data["my_review"] = get_review_data(user_rev_objs,user_id,login_user=login_user,liked_rev=False)
+            data["tot_reviews"] = user_rev_objs.count()
 
-        #like reviews
-        liked_rev_objs = Review_like.objects.filter(u_id = acc_obj)
-        user_rev_objs = [x.r_id for x in liked_rev_objs]
-        data["liked_review"] = get_review_data(user_rev_objs,user_id,liked_rev=True)
-        data["tot_likes"] = Review_like.objects.filter(r_id__in=user_rev_objs).count()
+            #like reviews
+            liked_rev_objs = Review_like.objects.filter(u_id = acc_obj)
+            user_rev_objs = [x.r_id for x in liked_rev_objs]
+            data["liked_review"] = get_review_data(user_rev_objs,user_id,login_user=login_user,liked_rev=True)
+            data["tot_likes"] = Review_like.objects.filter(r_id__in=user_rev_objs).count()
 
-        res_data={"message":"successful","data":data}
-        return Response(res_data,status=status.HTTP_202_ACCEPTED)
+            res_data={"message":"successful","data":data}
+            return Response(res_data,status=status.HTTP_202_ACCEPTED)
     res_data={"message":"Failed"}
     return Response(res_data,status=status.HTTP_400_BAD_REQUEST)
 
