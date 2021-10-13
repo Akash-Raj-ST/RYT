@@ -78,3 +78,26 @@
     margin: 5px 0 0 35px;
     z-index: 2;
 }
+
+.filter{
+    font-size: 0.4rem;
+    font-weight: normal;
+    color: white;
+    border: none;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: #DFA7CC;
+    min-width: 50px;
+    max-width: fit-content;
+    text-align: center;
+}
+
+.filter_container{
+    margin:auto;
+    width: fit-content;
+}
+
+.filter:hover{
+    background-color: #EC6969;
+}

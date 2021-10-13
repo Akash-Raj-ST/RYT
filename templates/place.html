@@ -42,9 +42,17 @@
         </div>
 
         <div class="sub_place_container flex column center" style="display:none;">
+            <div class="flex  row filter_container">
+                <button class="filter pointer" onclick="filter(this)">All</button>
+                <button class="filter pointer" onclick="filter(this)">Places</button>
+                <button class="filter pointer" onclick="filter(this)">Hilly</button>
+                <button class="filter pointer" onclick="filter(this)">Religious</button>
+                <button class="filter pointer" onclick="filter(this)">Resort</button>
+                <button class="filter pointer" onclick="filter(this)">Beach</button>
+            </div>
             <div class="all_sub_places flex column center">
                 {% for sub_place in place.sub_places%}
-                    <div class="sub_place pointer" onclick="window.location='{% url 'place' p_id=sub_place.p_id %}';">
+                    <div class="sub_place pointer" onclick="window.location='{% url 'place' p_id=sub_place.p_id %}';" id="{{sub_place.place_type}}">
                         <h3 class="sub_place_name flex center">{{sub_place.place}}</h3>
                         <img class="sub_place_img" src="{{sub_place.image}}">
                         <h4 class="description flex center">
@@ -98,12 +106,7 @@
         <h1>===================================</h1>
     {%endfor%} {% endcomment %}
     
-    <script>
-        function open_review(){
-            var rev = document.querySelector(".review_page");
-            rev.style.display = "block";
-        }
-    </script>
+    
     <script src="{% static 'js/like.js' %}"></script>
     <script src="{% static 'js/pics.js' %}"></script>
     <script src="{% static 'js/place.js' %}"></script>
