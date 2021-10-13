@@ -39,3 +39,30 @@ function rev_spot(e,n){
         review.style.display = "flex";
     }
 }
+
+function filter(e){  
+    // remove other filters bg first
+    var filters = e.parentNode.querySelectorAll(".filter");
+    for(i=0;i<filters.length;i++){
+        filters[i].style.backgroundColor="#DFA7CC";
+    }
+    e.style.backgroundColor = "#EC6969";
+
+    // manage subplace
+    var all_subplaces = document.querySelectorAll(".sub_place");
+    if(e.innerHTML.toLowerCase()=="all"){ //show all subplaces
+        for(i=0;i<all_subplaces.length;i++){
+            all_subplaces[i].style.display = "grid";
+        }
+    }
+    else{
+        var real_type = e.innerHTML.toLowerCase();
+        for(i=0;i<all_subplaces.length;i++){
+            var ori_type = all_subplaces[i].getAttribute("id").toLowerCase();
+            if(ori_type==real_type)
+                all_subplaces[i].style.display = "grid";
+            else
+                all_subplaces[i].style.display = "none";
+        }
+    }
+}
