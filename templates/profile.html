@@ -13,11 +13,11 @@
     <title>Document</title>
 </head>
 <body>
-    <div>
+    <div class="top_profile">
         <div class="user_info">
-            <h3 class="user_name">{{data.user_name}}</h3>
-            <h4 class="reviews flex center">{{data.tot_reviews}}&nbspReviews</h4>
-            <div class="likes flex row center">
+            <h3 class="user_name flex ">{{data.user_name}}</h3>
+            <h4 class="reviews flex ">{{data.tot_reviews}}&nbspReviews</h4>
+            <div class="pro_likes flex row">
                 <img src="{% static 'img/heart_fill.png' %}">
                 <h4>{{data.tot_likes}}</h4>
             </div>
@@ -41,7 +41,7 @@
         {% endfor %}
     </div>
 
-    <div class="all_post all_like_review flex column center">
+    <div class="all_post all_like_review flex column center" style="display:none;">
        {% for review in data.liked_review%}
             {% include 'review.html' %}
         {%empty%}
