@@ -13,6 +13,7 @@
     <title>Document</title>
 </head>
 <body>
+    {% include 'header.html' %}
     <div class="top_profile">
         <div class="user_info">
             <h3 class="user_name flex ">{{data.user_name}}</h3>
@@ -41,7 +42,7 @@
         {% endfor %}
     </div>
 
-    <div class="all_post all_like_review flex column center" style="display:none;">
+    <div class="all_post all_like_review flex column center">
        {% for review in data.liked_review%}
             {% include 'review.html' %}
         {%empty%}
@@ -52,6 +53,8 @@
     <script src="{% static 'js/profile.js' %}"></script>
     <script src="{% static 'js/like.js' %}"></script>
     <script src="{% static 'js/pics.js' %}"></script>
-
+    <script>
+        document.querySelector(".all_like_review").style.display="none";
+    </script>
 </body>
 </html>
