@@ -12,18 +12,19 @@
                 </section>
     
                 <section class="post_middle">
-                    <div class="pics">
+                    <div class="pics" id="{{post_no}}">
                         {%if review.r_pic%}
-                            <div class="nav_b">
-                                <img src="{%static 'img/left_nav.svg'%}" class="nav" onclick="show_slide(this,-1,0)" alt="<-">
-                                <img src="{%static 'img/right_nav.svg'%}" class="nav" onclick="show_slide(this,1,0)" alt="->">
+                            <div class="nav_b" id="0">
+                                <img src="{%static 'img/left_nav.svg'%}" class="nav" onclick="show_slide(this,-1)" alt="<-">
+                                <img src="{%static 'img/right_nav.svg'%}" class="nav" onclick="show_slide(this,1)" alt="->">
+                            </div>
+                            <div class="images">
+                                {%for pic in review.r_pic%}
+                                {% comment %} index:{{forloop.counter}} {% endcomment %}
+                                    <img src="{{pic}}" alt="img" class="post_pic" id="pic_id">  
+                                {% endfor %}
                             </div>
                         {% endif %}
-                        <div class="images">
-                            {%for pic in review.r_pic%}
-                                <img src="{{pic}}" alt="img" class="post_pic">  
-                            {% endfor %}
-                        </div>
                     </div>
                     <div class="bubbles">
                         {%for pic in review.r_pic%}

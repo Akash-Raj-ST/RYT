@@ -35,7 +35,9 @@
         
         <div class="all_post flex column center">
             {% for review in reviews%}
-                {% include 'review.html' %}
+                {% with post_no=forloop.counter %}
+                    {% include 'review.html' %}
+                {% endwith %}
             {%empty%}
                 <h4>No reviews Yet!!!<h4>
             {% endfor %}
