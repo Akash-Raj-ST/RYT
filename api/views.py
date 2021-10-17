@@ -241,51 +241,56 @@ def places(request, place_id):
 def review(request):
     logged = check_auth(request)
     if request.method == "GET":
-
+        
         place_id = request.data["p_id"] #place_id from payload
+        all_place_id = []
+        sub_places = Place_map.objects.filter(pm_id=place_id)
+        all_place_id = [x.spm_id.p_id for x in sub_places]
+        all_place_id.append(place_id)
 
-        place_obj = Places.objects.filter(p_id=place_id) 
-        if place_obj.exists(): #checking if place exists
-            review_objs = Review.objects.filter(p_id=place_id) #Fetching reviws of that place
-            all_data = [] #contains details of all reviews
-            if review_objs.exists():
-                for review in review_objs: #looping through every review
+        all_data = [] #contains details of all reviews
+        for place_id in all_place_id:
+            place_obj = Places.objects.filter(p_id=place_id) 
+            if place_obj.exists(): #checking if place exists
+                review_objs = Review.objects.filter(p_id=place_id) #Fetching reviws of that place
+                if review_objs.exists():
+                    for review in review_objs: #looping through every review
 
-                    #Checking whether the user has liked the review
-                    if logged:
-                       liked = is_liked(request.data["user_id"],review.r_id)
-                    else:
-                        liked = False
+                        #Checking whether the user has liked the review
+                        if logged:
+                            liked = is_liked(request.data["user_id"],review.r_id)
+                        else:
+                            liked = False
 
-                    #Fecthing the tags of review
-                    tags = get_rev_tags(review.r_id)
+                        #Fecthing the tags of review
+                        tags = get_rev_tags(review.r_id)
 
-                    #fetching the images of review
-                    images = get_rev_images(review.r_id)
+                        #fetching the images of review
+                        images = get_rev_images(review.r_id)
 
-                    # fetch user_dp
-                    if review.u_id.dp:
-                        user_dp = review.u_id.dp.url
-                    else:
-                        user_dp = None
-                    #data of a particular review
-                    data = { 
-                        "r_id": review.r_id,
-                        "content": review.content,
-                        "likes": review.likes,
-                        "p_id": review.p_id.p_id,
-                        "u_id": review.u_id.user_id,
-                        "username":review.u_id.username,
-                        "user_dp":user_dp,
-                        "r_pic":images,
-                        "tags": tags,
-                        "liked": liked
-                    }
-                    all_data.append(data)
-                data = {"message": "Reviews Fetched Successfully", "data": all_data}
-            else:
-                msg = "No reviews yet"
-                data = {"message": msg, "data": None}
+                        # fetch user_dp
+                        if review.u_id.dp:
+                            user_dp = review.u_id.dp.url
+                        else:
+                            user_dp = None
+                        #data of a particular review
+                        data = { 
+                            "r_id": review.r_id,
+                            "content": review.content,
+                            "likes": review.likes,
+                            "p_id": review.p_id.p_id,
+                            "u_id": review.u_id.user_id,
+                            "username":review.u_id.username,
+                            "user_dp":user_dp,
+                            "r_pic":images,
+                            "tags": tags,
+                            "liked": liked
+                        }
+                        all_data.append(data)
+                    data = {"message": "Reviews Fetched Successfully", "data": all_data}
+                else:
+                    msg = "No reviews yet"
+                    data = {"message": msg, "data": None}
             print(all_data)
             return Response(data, status=status.HTTP_202_ACCEPTED)
         else:
