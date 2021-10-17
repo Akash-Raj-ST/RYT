@@ -1,0 +1,75 @@
+:root{
+  --width_area : 75%;
+}
+.add_review_container{
+    position: fixed;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: fit-content;
+    height: 80vh;
+    margin:auto;
+    padding: 10px;
+    border: 2px solid black;
+    background-color: white;
+    z-index: 5;
+    overflow: scroll;
+    filter: blur(0px);
+}
+
+form{
+  width: 100%;
+}
+.add_review_container > *{
+    margin: 2px;
+  }
+  
+#drop-area {
+    border: 2px dashed #ccc;
+    border-radius: 20px;
+    width:var(--width_area);
+    padding: 20px;
+    font-size: 0.5rem;
+    background-color: #F3AEAE;
+    box-sizing: border-box;
+    height: 50vh;
+}
+
+#drop-area.highlight {
+  border-color: purple;
+}
+
+.my-form {
+  margin-bottom: 10px;
+}
+
+#gallery {
+  margin-top: 10px;
+}
+
+#gallery img {
+  width: 150px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+#fileElem {
+  display: none;
+}
+
+textarea{
+    padding:5px;
+}
+
+.content_upload textarea{
+    width:var(--width_area);
+    height: 250px;
+    box-sizing: border-box;
+}
+
+.tag_upload textarea{
+    width:var(--width_area);
+    height: 100px;
+    box-sizing: border-box;
+}
