@@ -93,6 +93,7 @@ def get_review_data(user_rev_objs,user_id,login_user,liked_rev=False):
             "liked":liked
         }
         rev_data.append(rev)
+    rev_data.sort(key= lambda x:x["likes"],reverse=True)
     return rev_data
     
 @api_view(["POST"])
@@ -291,6 +292,7 @@ def review(request):
                 else:
                     msg = "No reviews yet"
                     data = {"message": msg, "data": None}
+            all_data.sort(key= lambda x:x["likes"],reverse=True)
             print(all_data)
             return Response(data, status=status.HTTP_202_ACCEPTED)
         else:
