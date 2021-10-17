@@ -11,11 +11,14 @@
     <link rel="stylesheet" href="{% static 'css/place.css' %}">
     <link rel="stylesheet" href="{% static 'css/post.css' %}">
     <link rel="stylesheet" href="{% static 'css/sub_place.css' %}">
+    <link rel="stylesheet" href="{% static 'css/add_review.css' %}">
 
     <title>Document</title>
 </head>
 <body>
     {% include 'header.html' %}
+    {% include 'add_review.html' %}
+
     <div class="place_container">
         <div class="cover flex center">
             <img src="{{place.image}}" class="cover_img">
@@ -25,7 +28,7 @@
         </div>
 
         <div class="flex row" style="width:100%;">
-            <button class="button add_rev">Add&nbspReview</button>
+            <button class="button add_rev" onclick="add_review()">Add&nbspReview</button>
             <div class=" rev_choi flex row center">
                 <h3 class="pointer rev" onclick="rev_spot(this,1)">Reviews</h3>
                 <h2> | </h2>
@@ -112,6 +115,19 @@
     <script src="{% static 'js/like.js' %}"></script>
     <script src="{% static 'js/pics.js' %}"></script>
     <script src="{% static 'js/place.js' %}"></script>
-
+    <script>
+        function add_review(){
+            var rev = document.querySelector(".add_review_container");
+            if( rev.style.display == "none"){
+                rev.style.display = "flex";
+                {% comment %} document.body.style.filter="blur(2px)"; {% endcomment %}
+            }
+            else{
+                rev.style.display = "none";
+                console.log("Hiding...");
+                document.body.style.filter="blur(0px)";
+            }
+        }
+    </script>
 </body>
 </html>
