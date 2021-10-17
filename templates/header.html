@@ -8,9 +8,15 @@
         <img src="{%static 'img/search.svg' %}" alt="s">
     </div>
     <div class="profile ">
+    {% if True%}
         <a href="{%url 'profile' user_id=user_id%}" class="flex center">
-            <img src="{%static 'img/HoodyAnime.jpg' %}" alt="dp">
+            <img src="{{request.session.dp}}" alt="dp">
         </a>
+    {%else%}
+        <a href="{%url 'login' %}" class="flex center">
+            <button class="button">Log in</button>
+        </a>
+    {% endif %}
     </div>
 </div>
 <div class="spacer"></div>

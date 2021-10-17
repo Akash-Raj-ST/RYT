@@ -46,6 +46,7 @@ def login(request):
         if response.ok:
             request.session["token"] = response_json["key"]
             request.session["user_id"] = response_json["user_id"]
+            request.session["dp"] = response_json["dp"]
             return redirect(home)
         else:
             messages.error(request, response_json['message'])
@@ -79,6 +80,7 @@ def register(request):
         if response.ok:
             request.session["token"] = response_json["key"]
             request.session["user_id"] = response_json["user_id"]
+            request.session["dp"] = response_json["dp"]
             return redirect(home)
         else:
             return HttpResponse(response_json['message'])

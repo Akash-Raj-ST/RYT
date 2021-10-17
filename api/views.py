@@ -108,7 +108,7 @@ def login(request):
             ret_pass = user_obj.password
             if ret_pass == password:
                 user_id = user_obj.user_id
-                data = {"message": "Login Successful", "user_id": user_id,"key":token_key}
+                data = {"message": "Login Successful", "user_id": user_id,"key":token_key,"dp":user_obj.dp.url}
                 return Response(data, status=status.HTTP_202_ACCEPTED)
         data = {"message": "Login Failed"}
         return Response(data, status=status.HTTP_401_UNAUTHORIZED)
@@ -138,7 +138,7 @@ def register(request):
                 token,created = Token.objects.get_or_create(user=user_obj)
                 token_key = token.key
 
-                data = {"message": "Account created Successfully", "user_id": user_obj.user_id,"key":token_key}
+                data = {"message": "Account created Successfully", "user_id": user_obj.user_id,"key":token_key,"dp":user_obj.dp.url}
                 return Response(data, status=status.HTTP_202_ACCEPTED)
             else:
                 data = {"message": "Not Valid"}
