@@ -77,7 +77,9 @@ def register(request):
         response = request_api_files("register", payload,files=files,method="POST")
         response_json = json.loads(response.text)
         if response.ok:
-            return render(request,"login.html")  
+            request.session["token"] = response_json["key"]
+            request.session["user_id"] = response_json["user_id"]
+            return redirect(home)
         else:
             return HttpResponse(response_json['message'])
 
@@ -128,11 +130,11 @@ def place(request,p_id):
             return render(request,"place.html",{"place":place_data,"reviews":review_data,"user_id":request.session["user_id"] })
         return HttpResponse("Failed")
     
-def add_review(request):
+def add_review(request,p_id):
     if request.method == "POST":
 
         payload ={
-            "p_id":request.POST.get("p_id"),
+            "p_id":p_id,
             "content":request.POST.get("content"),
             "tags":request.POST.get("tags"),
             "user_id":request.session["user_id"]
@@ -141,8 +143,8 @@ def add_review(request):
         pic_files = []
         for pic in pics:
             pic_files.append(("r_pic",pic))
-        print(pic_files)
-        response = request_api_files("review",payload=payload,files=pic_files,method="POST")
+        print(pics)
+        response = request_api_files("review",payload=payload,files=pic_files,method="POST",token=request.session["token"])
         if response.ok:
             response_json = json.loads(response.text)
             return HttpResponse(response_json["message"])

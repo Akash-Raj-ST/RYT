@@ -134,7 +134,11 @@ def register(request):
             serializer = AccountsSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                data = {"message": "Account created Successfully"}
+                user_obj = Accounts.objects.get(username=username)
+                token,created = Token.objects.get_or_create(user=user_obj)
+                token_key = token.key
+
+                data = {"message": "Account created Successfully", "user_id": user_obj.user_id,"key":token_key}
                 return Response(data, status=status.HTTP_202_ACCEPTED)
             else:
                 data = {"message": "Not Valid"}
