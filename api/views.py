@@ -166,11 +166,10 @@ def profile(request,user_id):
             user_rev_objs = Review.objects.filter(u_id = acc_obj)
             data["my_review"] = get_review_data(user_rev_objs,user_id,login_user=login_user,liked_rev=False)
             data["tot_reviews"] = user_rev_objs.count()
-
             #like reviews
             liked_rev_objs = Review_like.objects.filter(u_id = acc_obj)
-            user_rev_objs = [x.r_id for x in liked_rev_objs]
-            data["liked_review"] = get_review_data(user_rev_objs,user_id,login_user=login_user,liked_rev=True)
+            user_rev_like_objs = [x.r_id for x in liked_rev_objs]
+            data["liked_review"] = get_review_data(user_rev_like_objs,user_id,login_user=login_user,liked_rev=True)
             data["tot_likes"] = Review_like.objects.filter(r_id__in=user_rev_objs).count()
 
             res_data={"message":"successful","data":data}
