@@ -284,16 +284,16 @@ def review(request):
                         #data of a particular review
                         data = { 
                             "r_id": review.r_id,
-                            "content": review.content,
-                            "likes": review.likes,
-                            "p_id": review.p_id.p_id,
                             "u_id": review.u_id.user_id,
                             "username":review.u_id.username,
                             "user_dp":user_dp,
                             "verified":review.u_id.verified,
+                            "content": review.content,
                             "r_pic":images,
                             "tags": tags,
-                            "liked": liked
+                            "likes": review.likes,
+                            "liked": liked,
+                            "p_id": review.p_id.p_id,
                         }
                         all_data.append(data)
                     data = {"message": "Reviews Fetched Successfully", "data": all_data}
