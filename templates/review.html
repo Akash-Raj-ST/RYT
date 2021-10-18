@@ -4,7 +4,9 @@
                     <img src="{{review.user_dp}}" alt="" class="dp">
                     <h3 class="username" onclick="window.location='{% url 'profile' user_id=review.u_id %}';">
                         {{review.username}}
-                        <img src="{% static 'img/verified.svg' %}" class="verify_s">
+                        {% if review.verified %}
+                            <img src="{% static 'img/verified.svg' %}" class="verify_s">
+                        {% endif %}
                     </h3>
                     
                     <div class="tags">

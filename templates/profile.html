@@ -18,7 +18,9 @@
         <div class="user_info">
             <h3 class="user_name flex ">
                 {{data.user_name}}
-                <img src="{% static 'img/verified.svg' %}" class="verify_m">
+                {% if data.verified %}
+                    <img src="{% static 'img/verified.svg' %}" class="verify_m">
+                {% endif %}
             </h3>
             <h4 class="reviews flex ">{{data.tot_reviews}}&nbspReviews</h4>
             <div class="pro_likes flex row">
