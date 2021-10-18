@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -7,12 +7,27 @@ from rest_framework.authtoken.models import Token
 
 from django.contrib.auth.models import BaseUserManager,AbstractBaseUser
 
+from datetime import date
+
 place_types = (
-    ("places","Places"),
-    ("hilly","Hilly"),
-    ("beach","Beach"),
+    #actual,human_read
+    ("Country","Country"),
+    ("State","State"),
+    ("District","District"),
+    #beach
+    ("Islands","Islands"),
+    ("Beach resorts","Beach resorts"),
+    ("Secluded beaches","Secluded beaches"),
+    #Natural Areas
+    ("Mountain","Mountain"),
+    ("Forest","Forest"),
+    ("Countryside","Countryside"),
+
+    ("Town","Town"),
+    ("City","City"),
+    ("Winter sport","Winter sport"),
+    ("Culture and Heritage","Culture and Heritage"),
     ("Religious","Religious"),
-    ("resort","Resort"),
 )
 
 #User Model Manager
@@ -58,7 +73,8 @@ class Accounts(AbstractBaseUser):
     email = models.EmailField(unique=True)
     password = models.TextField(max_length=25)
     dp = models.ImageField(upload_to="user_dp",default=None)
-    
+    verified = models.BooleanField(default=False)
+
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now=True)
     is_admin = models.BooleanField(default=False)
@@ -85,7 +101,8 @@ class Places(models.Model):
     place_name = models.CharField(max_length=50)
     link = models.CharField(max_length=250)
     image = models.ImageField(upload_to="place")
-    subject = models.CharField(max_length=50)
+    subject = models.CharField(max_length=25)
+    description = models.TextField(max_length=400)
     place_type = models.CharField(choices=place_types,max_length=20)
 
 class Place_map(models.Model):
@@ -98,6 +115,7 @@ class Review(models.Model):
     r_id = models.BigAutoField(primary_key=True)
     content = models.CharField(max_length=150)
     likes = models.IntegerField(default=0)
+    date_uploaded = models.DateField(default=timezone.now)
 
 class Review_pic(models.Model):
     r_id = models.ForeignKey("Review", verbose_name=("r_id_FK"), on_delete=models.CASCADE)
