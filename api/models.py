@@ -21,6 +21,7 @@ place_types = (
     #Natural Areas
     ("Mountain","Mountain"),
     ("Forest","Forest"),
+    ("Dessert","Dessert"),
     ("Countryside","Countryside"),
 
     ("Town","Town"),
