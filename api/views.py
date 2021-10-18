@@ -211,6 +211,13 @@ def get_subplace(place_id):
             sub_data["subject"] = sp_obj.subject
             sub_data["description"] = sp_obj.description
             sub_data["place_type"] = sp_obj.place_type
+
+            place_revs =  Review.objects.filter(p_id = sp_obj.p_id)
+            sub_data["reviews"] =place_revs.count()
+            sub_data["likes"] = 0
+            for place_rev in place_revs:
+                sub_data["likes"] += place_rev.likes
+            print(sub_data)
             sp_all.append(sub_data)
     
         return sp_all
@@ -233,9 +240,19 @@ def places(request, place_id):
                 "place_type":place_obj.place_type
             }
 
+            place_revs =  Review.objects.filter(p_id = place_id)
+            data["reviews"] =place_revs.count()
+            for place_rev in place_revs:
+                data["likes"] = place_rev.likes
+            # print(data)
             # get subplaces
             subplaces = get_subplace(place_id)
-            data["sub_places"] = subplaces
+            #add likes and review of subplace to mainplace
+            if subplaces:
+                for subplace in subplaces:
+                    data["reviews"] += subplace["reviews"]
+                    data["likes"] += subplace["likes"]
+                data["sub_places"] = subplaces
             # serializer = PlacesSerializer(place_obj)
             # data = {"message": "Successful", "data": serializer.data}
             data = {"message": "Successful", "data": data}
@@ -251,7 +268,7 @@ def review(request):
     logged = check_auth(request)
     if request.method == "GET":
         
-        place_id = request.data["p_id"] #place_id from payload
+        place_id = int(request.data["p_id"]) #place_id from payload
         all_place_id = []
         sub_places = Place_map.objects.filter(pm_id=place_id)
         all_place_id = [x.spm_id.p_id for x in sub_places]
@@ -269,17 +286,14 @@ def review(request):
                     else:
                         login_user = False
 
-                    all_data = get_review_data(review_objs, login_user)
+                    for rev in get_review_data(review_objs, login_user):
+                        all_data.append(rev)
                     data = {"message": "Reviews Fetched Successfully", "data": all_data}
                 else:
                     msg = "No reviews yet"
                     data = {"message": msg, "data": None}
-            all_data.sort(key= lambda x:x["likes"],reverse=True)
-            print(all_data)
-            return Response(data, status=status.HTTP_202_ACCEPTED)
-        else:
-            msg = "Place not found"
-        return Response({"message": msg}, status=status.HTTP_401_UNAUTHORIZED)
+        all_data.sort(key= lambda x:x["likes"],reverse=True)
+        return Response(data, status=status.HTTP_202_ACCEPTED)
 
     elif request.method == "POST":
         place_obj = Places.objects.filter(p_id=request.data["p_id"])
