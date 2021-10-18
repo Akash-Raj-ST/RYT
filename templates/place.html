@@ -22,12 +22,21 @@
     <div class="place_container">
         <div class="cover flex center">
             <img src="{{place.image}}" class="cover_img">
-            <h3 class="place_name">{{place.place}}</h3>
+            <h3 class="place_name">
+                <a href="//{{place.link}}" target="_blank">{{place.place}}</a>
+            </h3>
             <h2 class="place_sub">{{place.subject}}</h2>
             <div class="info_container flex row">
                 <img class="info pointer" src="{% static 'img/info.svg' %}" alt="des" tabindex="0">
                 <p class="info_desc">{{place.description}}</p>
 
+            </div>
+            <div class="place_like_review">
+                <h4 class="reviews flex ">{{place.reviews}}&nbspReviews</h4>
+                <div class="place_likes flex row">
+                    <img src="{% static 'img/heart_line.png' %}">
+                    <h4>{{place.likes}}</h4>
+                </div>
             </div>
         </div>
 

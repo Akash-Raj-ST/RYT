@@ -9,13 +9,13 @@
 }
 
 .cover_img{
+    position: relative;
     box-sizing: border-box;
     width: 95%;
     height: 80vh;
     margin: 5px;
     object-fit: cover;
     border-radius: 15px;
-    position: relative;
 }
 
 .place_name{
@@ -84,6 +84,34 @@
     background-color: #EC6969;
 }
 
+.place_like_review{
+    position: absolute;
+    right: 10%;
+    bottom: 12%;
+    font-size: 0.45rem;
+    display: flex;
+    flex-direction: row;
+    color: white;
+}
+
+.place_like_review > *{
+    border: 2px solid black;
+    border-radius: 15px;
+    background-color: #EC6969;
+    padding: 5px 10px;
+    width: fit-content;
+    height: fit-content;
+    margin: 0 10px;
+}
+
+.place_likes >*{
+    margin: 0 3px;
+}
+
+.place_likes img{
+    width: 25px;
+    height: 25px;
+}
 
 .rev_choi{
     margin: 5px;
