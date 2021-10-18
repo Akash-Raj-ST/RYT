@@ -24,7 +24,11 @@
             <img src="{{place.image}}" class="cover_img">
             <h3 class="place_name">{{place.place}}</h3>
             <h2 class="place_sub">{{place.subject}}</h2>
-            <img class="info pointer" src="{% static 'img/info.svg' %}" alt="des">
+            <div class="info_container flex row">
+                <img class="info pointer" src="{% static 'img/info.svg' %}" alt="des" tabindex="0">
+                <p class="info_desc">{{place.description}}</p>
+
+            </div>
         </div>
 
         <div class="flex row" style="width:100%;">
@@ -61,7 +65,7 @@
                         <h3 class="sub_place_name flex center">{{sub_place.place}}</h3>
                         <img class="sub_place_img" src="{{sub_place.image}}">
                         <h4 class="description flex center">
-                           {{sub_place.subject}}
+                           {{sub_place.description}}
                         </h4>
                         <div class="type flex">
                             <h3 class="flex">#{{sub_place.place_type}}</h3>

@@ -52,6 +52,39 @@
     background-color: #6B8BDD;
 }
 
+.info_desc{
+    position: absolute;
+    top: 17%;
+    left: 7%;
+    font-size: 0.3rem;
+    font-weight: bold;
+    border:2px solid black;
+    border-radius: 12px;
+    background-color: white;
+    width: fit-content;
+    max-width: 50%;
+    height: fit-content;
+    padding: 10px;
+    display: none;
+    z-index: 5;
+}
+
+.info:hover{
+    background-color: #EC6969;
+}
+
+
+.info:hover + .info_desc{
+    display: block;
+}
+.info:focus + .info_desc{
+    display: block;
+}
+.info:focus{
+    background-color: #EC6969;
+}
+
+
 .rev_choi{
     margin: 5px;
     width: 100%;

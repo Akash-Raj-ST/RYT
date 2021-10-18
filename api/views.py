@@ -202,6 +202,7 @@ def get_subplace(place_id):
             sub_data["place"] = sp_obj.place_name
             sub_data["image"] = sp_obj.image.url
             sub_data["subject"] = sp_obj.subject
+            sub_data["description"] = sp_obj.description
             sub_data["place_type"] = sp_obj.place_type
             sp_all.append(sub_data)
     
@@ -221,6 +222,7 @@ def places(request, place_id):
                 "link": place_obj.link,
                 "image": place_obj.image.url,
                 "subject":place_obj.subject,
+                "description":place_obj.description,
                 "place_type":place_obj.place_type
             }
 
