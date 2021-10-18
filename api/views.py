@@ -86,6 +86,7 @@ def get_review_data(user_rev_objs,user_id,login_user,liked_rev=False):
             "u_id":user_id,
             "username":user_rev_obj.u_id.username,
             "user_dp":dp,
+            "verified":user_rev_obj.u_id.verified,
             "content":user_rev_obj.content,
             "r_pic":rev_images,
             "tags":rev_tags,
@@ -139,7 +140,11 @@ def register(request):
                 token,created = Token.objects.get_or_create(user=user_obj)
                 token_key = token.key
 
-                data = {"message": "Account created Successfully", "user_id": user_obj.user_id,"key":token_key,"dp":user_obj.dp.url}
+                if user_obj.dp:
+                    dp = user_obj.dp.url
+                else:
+                    dp = None
+                data = {"message": "Account created Successfully", "user_id": user_obj.user_id,"key":token_key,"dp":dp}
                 return Response(data, status=status.HTTP_202_ACCEPTED)
             else:
                 data = {"message": "Not Valid"}
@@ -160,6 +165,7 @@ def profile(request,user_id):
             data = {
                 "user_name":acc_obj.username,
                 "dp": dp,
+                "verified":acc_obj.verified,
             }
 
             #my reviews
@@ -284,6 +290,7 @@ def review(request):
                             "u_id": review.u_id.user_id,
                             "username":review.u_id.username,
                             "user_dp":user_dp,
+                            "verified":review.u_id.verified,
                             "r_pic":images,
                             "tags": tags,
                             "liked": liked
