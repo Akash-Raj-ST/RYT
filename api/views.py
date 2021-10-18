@@ -242,8 +242,9 @@ def places(request, place_id):
 
             place_revs =  Review.objects.filter(p_id = place_id)
             data["reviews"] =place_revs.count()
+            data["likes"] = 0
             for place_rev in place_revs:
-                data["likes"] = place_rev.likes
+                data["likes"] += place_rev.likes
             # print(data)
             # get subplaces
             subplaces = get_subplace(place_id)
