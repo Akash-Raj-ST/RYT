@@ -63,17 +63,17 @@ def is_liked(user_id,r_id):
                return True
     return False
 
-def get_review_data(user_rev_objs,user_id,login_user,liked_rev=False):
+def get_review_data(user_rev_objs,login_user,liked_rev=False):
     rev_data = []
     for user_rev_obj in user_rev_objs:
         rev_id = user_rev_obj.r_id
         rev_images = get_rev_images(r_id=rev_id)
         rev_tags = get_rev_tags(r_id=rev_id)
-        #liked can be skipped for user liked request function call
-        if liked_rev:
-            user_id = user_rev_obj.u_id.user_id
         
-        liked = is_liked(user_id=login_user,r_id=rev_id)
+        if login_user==False:
+            liked = False
+        else:
+            liked = is_liked(user_id=login_user,r_id=rev_id)
 
         #check dp exist
         if user_rev_obj.u_id.dp:
@@ -83,7 +83,7 @@ def get_review_data(user_rev_objs,user_id,login_user,liked_rev=False):
 
         rev = {
             "r_id":rev_id,
-            "u_id":user_id,
+            "u_id":user_rev_obj.u_id.user_id,
             "username":user_rev_obj.u_id.username,
             "user_dp":dp,
             "verified":user_rev_obj.u_id.verified,
@@ -91,7 +91,8 @@ def get_review_data(user_rev_objs,user_id,login_user,liked_rev=False):
             "r_pic":rev_images,
             "tags":rev_tags,
             "likes": user_rev_obj.likes,
-            "liked":liked
+            "liked":liked,
+            "p_id":user_rev_obj.p_id.p_id
         }
         rev_data.append(rev)
     rev_data.sort(key= lambda x:x["likes"],reverse=True)
@@ -170,12 +171,12 @@ def profile(request,user_id):
 
             #my reviews
             user_rev_objs = Review.objects.filter(u_id = acc_obj)
-            data["my_review"] = get_review_data(user_rev_objs,user_id,login_user=login_user,liked_rev=False)
+            data["my_review"] = get_review_data(user_rev_objs,login_user=login_user,liked_rev=False)
             data["tot_reviews"] = user_rev_objs.count()
             #like reviews
             liked_rev_objs = Review_like.objects.filter(u_id = acc_obj)
             user_rev_like_objs = [x.r_id for x in liked_rev_objs]
-            data["liked_review"] = get_review_data(user_rev_like_objs,user_id,login_user=login_user,liked_rev=True)
+            data["liked_review"] = get_review_data(user_rev_like_objs,login_user=login_user,liked_rev=True)
             data["tot_likes"] = Review_like.objects.filter(r_id__in=user_rev_objs).count()
 
             res_data={"message":"successful","data":data}
@@ -262,40 +263,13 @@ def review(request):
             if place_obj.exists(): #checking if place exists
                 review_objs = Review.objects.filter(p_id=place_id) #Fetching reviws of that place
                 if review_objs.exists():
-                    for review in review_objs: #looping through every review
 
-                        #Checking whether the user has liked the review
-                        if logged:
-                            liked = is_liked(request.data["user_id"],review.r_id)
-                        else:
-                            liked = False
+                    if logged:
+                        login_user = request.data["user_id"]
+                    else:
+                        login_user = False
 
-                        #Fecthing the tags of review
-                        tags = get_rev_tags(review.r_id)
-
-                        #fetching the images of review
-                        images = get_rev_images(review.r_id)
-
-                        # fetch user_dp
-                        if review.u_id.dp:
-                            user_dp = review.u_id.dp.url
-                        else:
-                            user_dp = None
-                        #data of a particular review
-                        data = { 
-                            "r_id": review.r_id,
-                            "u_id": review.u_id.user_id,
-                            "username":review.u_id.username,
-                            "user_dp":user_dp,
-                            "verified":review.u_id.verified,
-                            "content": review.content,
-                            "r_pic":images,
-                            "tags": tags,
-                            "likes": review.likes,
-                            "liked": liked,
-                            "p_id": review.p_id.p_id,
-                        }
-                        all_data.append(data)
+                    all_data = get_review_data(review_objs, login_user)
                     data = {"message": "Reviews Fetched Successfully", "data": all_data}
                 else:
                     msg = "No reviews yet"
