@@ -1,21 +1,24 @@
 {% load static %}
             <div class="post" id="review-{{review.r_id}}">
-                <section class="post_header">
-                    <img src="{{review.user_dp}}" alt="" class="dp">
-                    <h3 class="username" onclick="window.location='{% url 'profile' user_id=review.u_id %}';">
-                        {{review.username}}
-                        {% if review.verified %}
-                            <img src="{% static 'img/verified.svg' %}" class="verify_s">
-                        {% endif %}
-                    </h3>
-                    
-                    <div class="tags">
-                        {%for tag in review.tags%}
-                            <h3 class="tag">{{tag}}</h3>
-                        {% endfor %}
-                    </div>
-                </section>
-    
+                <div class="all_top flex center">
+                    <section class="post_header">
+                        <img src="{{review.user_dp}}" alt="" class="dp">
+                        <h3 class="username" onclick="window.location='{% url 'profile' user_id=review.u_id %}';">
+                            {{review.username}}
+                            {% if review.verified %}
+                                <img src="{% static 'img/verified.svg' %}" class="verify_s">
+                            {% endif %}
+                        </h3>
+                        
+                        <div class="tags">
+                            {%for tag in review.tags%}
+                                <h3 class="tag">{{tag}}</h3>
+                            {% endfor %}
+                        </div>
+
+                    </section>
+                    <h5 class="date flex center">21-09-2021</h5>
+                </div>
                 <section class="post_middle">
                     <div class="pics" id="{{post_no}}">
                         {%if review.r_pic%}

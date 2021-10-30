@@ -91,6 +91,7 @@ def get_review_data(user_rev_objs,login_user,liked_rev=False):
             "r_pic":rev_images,
             "tags":rev_tags,
             "likes": user_rev_obj.likes,
+            "date":user_rev_obj.date_uploaded,
             "liked":liked,
             "p_id":user_rev_obj.p_id.p_id
         }
