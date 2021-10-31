@@ -91,6 +91,7 @@ def get_review_data(user_rev_objs,login_user,liked_rev=False):
             "r_pic":rev_images,
             "tags":rev_tags,
             "likes": user_rev_obj.likes,
+            "date":user_rev_obj.date_uploaded,
             "liked":liked,
             "p_id":user_rev_obj.p_id.p_id
         }
@@ -177,8 +178,10 @@ def profile(request,user_id):
             liked_rev_objs = Review_like.objects.filter(u_id = acc_obj)
             user_rev_like_objs = [x.r_id for x in liked_rev_objs]
             data["liked_review"] = get_review_data(user_rev_like_objs,login_user=login_user,liked_rev=True)
-            data["tot_likes"] = Review_like.objects.filter(r_id__in=user_rev_objs).count()
-
+            data["tot_likes"] = 0
+            #total likes user got
+            for user_rev_obj in user_rev_objs:
+                data["tot_likes"] += user_rev_obj.likes
             res_data={"message":"successful","data":data}
             return Response(res_data,status=status.HTTP_202_ACCEPTED)
     res_data={"message":"Failed"}
