@@ -16,6 +16,8 @@ def get_file_name(file_name):
             return file_name
 
 def upload_place_data(conn):
+    cur = conn.cursor()
+    #get image from g_drive and save iti in media
     with open("admin/place_db.csv","r") as f:
         reader = csv.reader(f)
         next(reader)
@@ -30,7 +32,18 @@ def upload_place_data(conn):
                 gdown.download(url, output, quiet=False)    
             except:
                 print("[*]Error uploading:\n",data)
+                continue
 
+            #upload data to db
+            data[3] = f"place/{file_name}.jpg"
+            sql = "INSERT INTO api_places(place_name,link,image,subject,place_type,description) VALUES(%s,%s,%s,%s,%s,%s)"
+            try:
+                print(tuple(data[1:]))
+                cur.execute(sql,tuple(data[1:]))
+            except:
+                print("[*]Error uploading data to db")
+            conn.commit()
+    
 def connect():
 
     try:
