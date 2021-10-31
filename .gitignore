@@ -1,5 +1,8 @@
 *.pyc
 *.pyo
+*.csv
+tempCodeRunnerFile.py
+
 media/review
 media/user_dp
 __pycache__
