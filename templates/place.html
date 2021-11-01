@@ -19,7 +19,7 @@
     {% include 'header.html' %}
     {% include 'add_review.html' %}
 
-    <div class="place_container">
+    <div class="place_container" onclick="hide_add_review()">
         <div class="cover flex center">
             <img src="{{place.image}}" class="cover_img">
             <h3 class="place_name">
@@ -41,7 +41,7 @@
         </div>
 
         <div class="flex row" style="width:100%;">
-            <button class="button add_rev" onclick="add_review()">Add&nbspReview</button>
+            <button class="button add_rev" onclick="add_review();event.stopPropagation();">Add&nbspReview</button>
             <div class=" rev_choi flex row center">
                 <h3 class="pointer rev" onclick="rev_spot(this,1)">Reviews</h3>
                 <h2> | </h2>
@@ -87,59 +87,29 @@
         </div>
     </div>
     
-    {% comment %} <h3>place Name: {{place.place_name}}</h3>
-    <h2>place subject:{{place.subject}}</h2>
-    
-    <h2>place Link:{{place.link}}</h2>
-    <h1>place id:{{place.p_id}}</h1>
-    <a onclick="open_review()" class="add_review">Add Review</a>
-    <div class="review_page">
-        <form action="add_review" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="text" name="p_id" value={{place.p_id}} style="visibility:hidden;">
-            Tags: <input type="text" name="tags">
-            content: <input type="text" name="content">
-            pics: <input type="file" name="images" multiple>
-            <button type="submit">Submit</button>
-        </form>
-    </div> {% endcomment %}
-
-    {% comment %} <h1>Reviews</h1>
-    {% for review in reviews%}
-        <h2>Reviewer Name:{{review.username}}</h2>
-        <img src="{{review.user_dp}}" alt="no_dp">
-        {%for tag in review.tags%}
-            <h2>Tags:{{tag}}</h2>
-        {%empty%}
-            <h2>No Tags</h2>
-        {% endfor %}
-        <h2>Review_pics:</h2>
-        {%for pic in review.r_pic%}
-            <img src="{{pic}}">
-        {%empty%}
-            <h2>No review pics</h2>
-        {% endfor %}
-        <h2>Content:{{review.content}}</h2>
-        <h2>Liked:{{review.liked}}</h2>
-        <h1>===================================</h1>
-    {%endfor%} {% endcomment %}
-    
     
     <script src="{% static 'js/like.js' %}"></script>
     <script src="{% static 'js/pics.js' %}"></script>
     <script src="{% static 'js/place.js' %}"></script>
     <script>
+        var rev = document.querySelector(".add_review_container");
+        var place = document.querySelector(".place_container");
+
         function add_review(){
-            var rev = document.querySelector(".add_review_container");
+            console.log("add_review");
             if( rev.style.display == "none"){
                 rev.style.display = "flex";
-                {% comment %} document.body.style.filter="blur(2px)"; {% endcomment %}
+                place.style.opacity="50%";
             }
             else{
-                rev.style.display = "none";
-                console.log("Hiding...");
-                document.body.style.filter="blur(0px)";
+               hide_add_review();
             }
+        }
+
+        function hide_add_review(){
+            rev.style.display = "none";
+            console.log("Hiding...");
+            place.style.opacity="100%";
         }
     </script>
 </body>
