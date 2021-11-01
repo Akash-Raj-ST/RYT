@@ -5,15 +5,11 @@
       <div id="upload-area" class="flex column center">
         <div id="gallery" class="flex row center"></div>
         <input type="file" name="images" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
-        <label class="button" for="fileElem">Add images</label>
+        <label class="button add_img" for="fileElem">Add images</label>
       </div>
       
-      <div class="content_upload flex center">
-          <textarea name="content" cols="50" rows="10" class="input_field" placeholder="Share your Experience"></textarea>
-      </div>
-      <div class="tag_upload flex center">
-          <textarea oninput="show_tag(this)" id="rev_tag" name="tags" cols="50" rows="10" class="input_field" placeholder="Tags...">#</textarea>
-      </div>
+      <textarea name="content" cols="50" rows="10" class="input_field input_review" placeholder="Share your Experience"></textarea>
+      <textarea oninput="show_tag(this)" id="rev_tag" name="tags" cols="50" rows="10" class="input_field input_tag" placeholder="Tags...">#</textarea>
       <button class="button center" type="submit">Submit</button>
     </form>
 </div>
