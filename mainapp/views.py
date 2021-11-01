@@ -134,20 +134,23 @@ def place(request,p_id):
     
 def add_review(request,p_id):
     if request.method == "POST":
-
         payload ={
             "p_id":p_id,
             "content":request.POST.get("content"),
-            "tags":request.POST.get("tags"),
             "user_id":request.session["user_id"]
         }
+
+        all_tags = request.POST.get("tags")
+        tags = all_tags.split(" ")
+        payload["tags"] = [x[1:] for x in tags]
+
         pics = request.FILES.getlist("images")
         pic_files = []
         for pic in pics:
             pic_files.append(("r_pic",pic))
-        print(pics)
+        # print(payload)
         response = request_api_files("review",payload=payload,files=pic_files,method="POST",token=request.session["token"])
         if response.ok:
             response_json = json.loads(response.text)
             return HttpResponse(response_json["message"])
-        return HttpResponse("Failed adding review")
+        return HttpResponse("Failed adding review ")
