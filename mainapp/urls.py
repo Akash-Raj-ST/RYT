@@ -8,4 +8,5 @@ urlpatterns = [
     path('profile/<int:user_id>',views.profile,name="profile"),
     path('places/<int:p_id>/',views.place,name="places/<int:p_id>/"),
     path('places/<int:p_id>/add_review',views.add_review),
+    path('logout',views.logout,name="logout"),
 ]

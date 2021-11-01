@@ -30,6 +30,8 @@ def request_api(sub_url, payload=None,method="POST",token=None):
 
 def login(request):
     if request.method == 'GET':
+        if "token" and "user_id" and "dp" in request.session:
+            return redirect(home)
         return render(request, "login.html")
 
     elif request.method == 'POST':
@@ -154,3 +156,15 @@ def add_review(request,p_id):
             response_json = json.loads(response.text)
             return redirect(f"/places/{p_id}/")
         return HttpResponse("Failed adding review ")  
+
+def logout(request):
+
+    try:
+        del request.session["token"]
+        del request.session["user_id"]
+        del request.session["dp"]
+        print("Logged out successfully")
+    except:
+        print("Not logged in")
+
+    return redirect("login")
