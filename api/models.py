@@ -16,6 +16,7 @@ place_types = (
     ("District","District"),
     #beach
     ("Islands","Islands"),
+    ("Beach","Beach"),
     ("Beach resorts","Beach resorts"),
     ("Secluded beaches","Secluded beaches"),
     #Natural Areas
@@ -29,6 +30,7 @@ place_types = (
     ("Winter sport","Winter sport"),
     ("Culture and Heritage","Culture and Heritage"),
     ("Religious","Religious"),
+    ("Museum","Museum"),
 )
 
 #User Model Manager
@@ -114,7 +116,7 @@ class Review(models.Model):
     p_id = models.ForeignKey('Places', on_delete=models.CASCADE)
     u_id = models.ForeignKey('Accounts', on_delete=models.CASCADE)
     r_id = models.BigAutoField(primary_key=True)
-    content = models.CharField(max_length=150)
+    content =  models.TextField(max_length=400)
     likes = models.IntegerField(default=0)
     date_uploaded = models.DateField(default=timezone.now)
 

@@ -317,6 +317,7 @@ def review(request):
 
                     #data for tag table
                     tags = request.data.getlist("tags")
+                    print(tags)
                     tag_serializers = []
                     tag_prob = False
                     for tag in tags:

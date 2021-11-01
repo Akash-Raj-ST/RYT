@@ -1,98 +1,78 @@
 {%load static%}
 <div class="add_review_container flex column center" style="display: none;">
-    <form action="add_review" method="POST" enctype="multipart/form-data">
+    <form action="add_review" method="POST" enctype="multipart/form-data" class="flex column center upload_form">
       {% csrf_token %}
-      <div id="drop-area" class="flex column center">
-              <h4>Drag and Drop</h4>
-              <h4>(or)</h4>
-              <input type="file" name="images" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
-              <label class="button" for="fileElem">Upload</label>
-              <div id="gallery"></div>
+      <div id="upload-area" class="flex column center">
+        <div id="gallery" class="flex row center"></div>
+        <input type="file" name="images" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
+        <label class="button add_img" for="fileElem">Add images</label>
       </div>
       
-      <div class="content_upload">
-          <textarea name="content" cols="50" rows="10" class="input_field" placeholder="Share your Experience"></textarea>
-      </div>
-      <div class="tag_upload">
-          <textarea name="tags" cols="50" rows="10" class="input_field" placeholder="Tags..."></textarea>
-      </div>
+      <textarea name="content" cols="50" rows="10" class="input_field input_review" placeholder="Share your Experience"></textarea>
+      <textarea oninput="show_tag(this)" id="rev_tag" name="tags" cols="50" rows="10" class="input_field input_tag" placeholder="Tags..." onkeydown="return (event.keyCode!=13);">#</textarea>
       <button class="button center" type="submit">Submit</button>
     </form>
 </div>
 
-<script>
-    // ************************ Drag and drop ***************** //
-let dropArea = document.getElementById("drop-area");
-
-// Prevent default drag behaviors
-['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-  dropArea.addEventListener(eventName, preventDefaults, false)   
-  document.body.addEventListener(eventName, preventDefaults, false)
-})
-
-// Highlight drop area when item is dragged over it
-;['dragenter', 'dragover'].forEach(eventName => {
-  dropArea.addEventListener(eventName, highlight, false)
-})
-
-;['dragleave', 'drop'].forEach(eventName => {
-  dropArea.addEventListener(eventName, unhighlight, false)
-})
-
-// Handle dropped files
-dropArea.addEventListener('drop', handleDrop, false)
-
-function preventDefaults (e) {
-  e.preventDefault()
-  e.stopPropagation()
-}
-
-function highlight(e) {
-  dropArea.classList.add('highlight')
-}
-
-function unhighlight(e) {
-  dropArea.classList.remove('active')
-}
-
-function handleDrop(e) {
-  var dt = e.dataTransfer
-  var files = dt.files
-
-  handleFiles(files)
-}
-
-let uploadProgress = []
-let progressBar = document.getElementById('progress-bar')
-
-function initializeProgress(numFiles) {
-  progressBar.value = 0
-  uploadProgress = []
-
-  for(let i = numFiles; i > 0; i--) {
-    uploadProgress.push(0)
+<script> 
+  function handleFiles(files) {
+    files = [...files]
+    files.forEach(previewFile)
   }
-}
 
-function updateProgress(fileNumber, percent) {
-  uploadProgress[fileNumber] = percent
-  let total = uploadProgress.reduce((tot, curr) => tot + curr, 0) / uploadProgress.length
-  console.debug('update', fileNumber, percent, total)
-  progressBar.value = total
-}
-
-function handleFiles(files) {
-  files = [...files]
-  files.forEach(previewFile)
-}
-
-function previewFile(file) {
-  let reader = new FileReader()
-  reader.readAsDataURL(file)
-  reader.onloadend = function() {
-    let img = document.createElement('img')
-    img.src = reader.result
-    document.getElementById('gallery').appendChild(img)
+  function previewFile(file) {
+    let reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onloadend = function() {
+      let img = document.createElement('img')
+      img.src = reader.result
+      document.getElementById('gallery').appendChild(img)
+    }
   }
-}
+//handling tags
+
+  {% comment %} tag = document.querySelector("#rev_tag");
+  tag.addEventListener('keydown', function(event) {
+    const key = event.key; // const {key} = event; ES6+
+    if (key === "Backspace") {
+      console.log("backspace");
+      console.log("length: "+tag.length);
+      tag.value = tag.value.substring(0,tag.length-2).trim();
+    }
+    if(tag.length==0){
+      tag.value = "#";
+      return;
+    }
+  }); {% endcomment %}
+  var pre_len = 1;
+
+  function show_tag(e){
+    
+    var value = e.value;
+    var len = value.length;
+    console.log("length:"+len+" g_len: "+pre_len);
+    if(len==0){
+      e.value = "#";
+      return;
+    }
+    
+    //check backspace
+    if(len<pre_len){
+      e.value = e.value.trim();
+      pre_len = e.value.length;
+      return;
+    }
+
+   
+
+    if(e.value[len-1]==" "){
+      //check space after #
+      if(e.value[len-2]=="#"){
+        e.value = e.value.substring(0,len-1);
+      }else{
+        e.value += "#";
+      }
+    }
+    pre_len = e.value.length;
+  }
 </script>
