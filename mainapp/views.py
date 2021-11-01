@@ -152,5 +152,5 @@ def add_review(request,p_id):
         response = request_api_files("review",payload=payload,files=pic_files,method="POST",token=request.session["token"])
         if response.ok:
             response_json = json.loads(response.text)
-            return HttpResponse(response_json["message"])
-        return HttpResponse("Failed adding review ")
+            return redirect(f"/places/{p_id}/")
+        return HttpResponse("Failed adding review ")  
