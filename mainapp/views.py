@@ -6,7 +6,10 @@ import json
 import requests
 
 # Create your views here.
-
+def check_session(request):
+    if "token" not in request.session or "user_id" not in request.session or "dp" not in request.session:
+        return False
+    return True
 
 def request_api_files(sub_url, payload=None, files=[], method="POST",token=None):
     url = "http://127.0.0.1:8000/api/"+sub_url
@@ -30,9 +33,9 @@ def request_api(sub_url, payload=None,method="POST",token=None):
 
 def login(request):
     if request.method == 'GET':
-        if "token" and "user_id" and "dp" in request.session:
-            return redirect(home)
-        return render(request, "login.html")
+        if not check_session(request):
+            return render(request, "login.html")
+        return redirect(home)
 
     elif request.method == 'POST':
         username = request.POST.get('username')
@@ -91,6 +94,8 @@ def register(request):
         return render(request,"register.html")
 
 def profile(request,user_id):
+    if not check_session(request):
+        return render(request, "login.html")
     payload = json.dumps(
         {
             "user_id": request.session["user_id"],
@@ -104,6 +109,8 @@ def profile(request,user_id):
         return redirect("login")
 
 def home(request):
+    if not check_session(request):
+        return render(request, "login.html")
     if request.method == "GET":
         response = request_api("home",method="GET",token=request.session["token"])
         response_json = json.loads(response.text)
@@ -118,6 +125,8 @@ def home(request):
         return render(request,"home.html",{"data":data,"user_id":request.session["user_id"]})
 
 def place(request,p_id):
+    if not check_session(request):
+        return render(request, "login.html")
     if request.method == "GET":
         response = request_api(f"places/{p_id}",method="GET",token=request.session["token"])
         response_json = json.loads(response.text)
@@ -135,6 +144,8 @@ def place(request,p_id):
         return HttpResponse("Failed")
     
 def add_review(request,p_id):
+    if not check_session(request):
+        return render(request, "login.html")
     if request.method == "POST":
         payload ={
             "p_id":p_id,
