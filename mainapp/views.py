@@ -4,10 +4,10 @@ from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
 import json
 import requests
-from io import BytesIO
+
 import cairosvg
 from PIL import Image 
-import io,os,PIL,sys
+import io,os,sys
 from django.core.files.uploadedfile import InMemoryUploadedFile
 import mimetypes
 
@@ -97,20 +97,15 @@ def register(request):
 
         files = None
         dp_file = request.FILES.get('dp_file')
-        if dp_file:
-            print("file got")
-        else:
-            print("Not got")
+        if not dp_file:
             url = request.POST.get('dp_url')
-            print(url)
-            out = BytesIO()
+            out = io.BytesIO()
             cairosvg.svg2png(url=url, write_to=out)
             dp_file = media_to_file(out, "profile.png")
             
         files ={
             "dp":dp_file
         }
-        print("main app: ",files)
         
         response = request_api_files("register", payload,files=files,method="POST")
         response_json = json.loads(response.text)
