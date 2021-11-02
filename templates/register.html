@@ -29,6 +29,7 @@
             {% csrf_token %}
             <div onclick="photo_upload();" class="photo_upload">
                 <img id="upload_pic" />
+                <img onclick="gen_random_dp();event.stopPropagation();" src="{% static 'img/circular-arrow.png' %}" class="circular"/>
             </div>
             <input type="text" id="name" name="name" class="input_field" placeholder="name" required>
             <input type="text" id="username" name="username"class="input_field" placeholder="username" required>
@@ -43,9 +44,11 @@
                
             </div>  
             <input type="file" name="dp_file" class="file_input" accept="image/*" onchange="loadFile(event)">
+            <input type="url" name="dp_url" class="file_url">
         </form>
 
     </section>
 
     <script src="{% static 'js/photo.js'%}"></script>
+    <script>gen_random_dp();</script>
 </body>
