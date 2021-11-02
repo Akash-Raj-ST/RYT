@@ -173,6 +173,8 @@ def profile(request,user_id):
             #my reviews
             user_rev_objs = Review.objects.filter(u_id = acc_obj)
             data["my_review"] = get_review_data(user_rev_objs,login_user=login_user,liked_rev=False)
+            #sort based on date
+            data["my_review"].sort(key = lambda x:x["date"],reverse=True)
             data["tot_reviews"] = user_rev_objs.count()
             #like reviews
             liked_rev_objs = Review_like.objects.filter(u_id = acc_obj)
