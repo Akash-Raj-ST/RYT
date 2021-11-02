@@ -4,7 +4,30 @@ from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
 import json
 import requests
+from io import BytesIO
+import cairosvg
+from PIL import Image 
+import io,os,PIL,sys
+from django.core.files.uploadedfile import InMemoryUploadedFile
+import mimetypes
 
+def media_to_file(file_object, name):
+    if isinstance(file_object, str):
+        file_object = io.BytesIO(file_object)
+
+    def getsize(f):
+        f.seek(0)
+        f.read()
+        s = f.tell()
+        f.seek(0)
+        return s
+
+    name = name.strip()
+    content_type, charset = mimetypes.guess_type(name)
+    size = getsize(file_object)
+    return InMemoryUploadedFile(file=file_object, name=name,
+                                field_name=None, content_type="image/jpg",
+                                charset=charset, size=size) 
 # Create your views here.
 def check_session(request):
     if "token" not in request.session or "user_id" not in request.session or "dp" not in request.session:
@@ -75,10 +98,19 @@ def register(request):
         files = None
         dp_file = request.FILES.get('dp_file')
         if dp_file:
-            files ={
-                "dp":dp_file
-            }
-            print(files)
+            print("file got")
+        else:
+            print("Not got")
+            url = request.POST.get('dp_url')
+            print(url)
+            out = BytesIO()
+            cairosvg.svg2png(url=url, write_to=out)
+            dp_file = media_to_file(out, "profile.png")
+            
+        files ={
+            "dp":dp_file
+        }
+        print("main app: ",files)
         
         response = request_api_files("register", payload,files=files,method="POST")
         response_json = json.loads(response.text)
@@ -89,6 +121,7 @@ def register(request):
             return redirect(home)
         else:
             return HttpResponse(response_json['message'])
+        # return HttpResponse("ok")
 
     elif request.method == "GET":
         return render(request,"register.html")
