@@ -433,6 +433,36 @@ def like(request,r_id):
         }
     return Response(data,status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(["GET"])
+def search(request):
+    q = request.data["q"]
+    place_objs = Places.objects.filter(place_name__icontains=q)
+    profile_objs = Accounts.objects.filter(username__icontains=q)
+    
+    data = {
+        "spots" :[],
+        "profile":[]
+    }
+    # spots
+    for place_obj in place_objs:
+        place = {}
+        place["place_id"] = place_obj.p_id
+        place["place_name"] = place_obj.place_name
+        place["place_img"] = place_obj.image.url
+        data["spots"].append(place)
+    # profile
+    for profile_obj in profile_objs:
+        profile = {}
+        profile["profile_id"] = profile_obj.user_id
+        profile["profile_name"] = profile_obj.username
+
+        if profile_obj.is_admin == False:
+            profile["profile_img"] = profile_obj.dp.url
+        else:
+            continue
+        data["profile"].append(profile)
+
+    return Response(data,status=status.HTTP_200_OK)
 
 @api_view(["GET"])
 def logout(request):
