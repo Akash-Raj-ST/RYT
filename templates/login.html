@@ -21,8 +21,8 @@
         
         <form action="/" method="POST"  class="flex column">
             {% csrf_token %}
-            <input type="text" id="username" class="input_field" name="username" placeholder="Username">
-            <input type="password" id="password" class="input_field" name="password" placeholder="Password">
+            <input type="text" id="username" class="input_field" name="username" placeholder="Username" required>
+            <input type="password" id="password" class="input_field" name="password" placeholder="Password" required>
 
             <div class="selection">
                 <button type="submit" class="button flex center" id="visit">Visit</button>

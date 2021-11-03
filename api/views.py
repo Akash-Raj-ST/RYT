@@ -173,6 +173,8 @@ def profile(request,user_id):
             #my reviews
             user_rev_objs = Review.objects.filter(u_id = acc_obj)
             data["my_review"] = get_review_data(user_rev_objs,login_user=login_user,liked_rev=False)
+            #sort based on date
+            data["my_review"].sort(key = lambda x:x["date"],reverse=True)
             data["tot_reviews"] = user_rev_objs.count()
             #like reviews
             liked_rev_objs = Review_like.objects.filter(u_id = acc_obj)
@@ -436,20 +438,12 @@ def like(request,r_id):
 def logout(request):
 
     token = request.headers["token"]
-    username = request.data["username"]
-    password = request.data["password"]
 
-    user_obj = Accounts.objects.filter(username=username,password=password)
-    if user_obj.exists():
-        token_key = Token.objects.filter(user=user_obj[0])
-        if token_key.exists():
-            if token_key[0].key==token:
-                token_key[0].delete()
-                msg = "Logged out successful"
-            else:
-                msg = "Token key wrong"
-        else:
-            msg = "Not logged in"
+    token_key = Token.objects.filter(key=token)
+    if token_key.exists():
+        token_key[0].delete()
+        msg = "Logged out successful"     
     else:
-        msg = "user not found"
+        msg = "Token not found"
+
     return Response(msg, status=status.HTTP_202_ACCEPTED)

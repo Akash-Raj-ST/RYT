@@ -61,14 +61,9 @@ body{
     width: 120px;
     height: 120px;
     border-radius: 20%;
-    background-color: #C4C4C4;
-    background-image: url('https://avatars.dicebear.com/api/avataaars/:seed.svg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    /* background-size: 170px 50px; */
     margin:25px auto;
     cursor: pointer;
+    position: relative;
 }
 
 .photo_upload:hover{
@@ -80,7 +75,12 @@ body{
     height: 100%;
     border-radius: 20%;
 }
-.file_input{
+.circular{
+    position: absolute;
+    bottom: -5%;
+}
+
+.file_input,.file_url{
     position: absolute;
     top: 50%;
     left: 50%;
