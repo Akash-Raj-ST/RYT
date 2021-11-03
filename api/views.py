@@ -435,7 +435,7 @@ def like(request,r_id):
 
 @api_view(["GET"])
 def search(request):
-    q = request.data["q"]
+    q = request.GET.get("q")
     place_objs = Places.objects.filter(place_name__icontains=q)
     profile_objs = Accounts.objects.filter(username__icontains=q)
     
