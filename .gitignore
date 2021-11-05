@@ -1,6 +1,7 @@
 *.pyc
 *.pyo
 *.csv
+media
 tempCodeRunnerFile.py
 
 media/review
