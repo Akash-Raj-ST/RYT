@@ -102,7 +102,7 @@ class Places(models.Model):
     place_name = models.CharField(max_length=50)
     link = models.CharField(max_length=250)
     image = models.ImageField(upload_to="place")
-    subject = models.CharField(max_length=25)
+    subject = models.CharField(max_length=100)
     description = models.TextField(max_length=400)
     place_type = models.CharField(choices=place_types,max_length=20)
 
