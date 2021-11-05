@@ -19,7 +19,7 @@
             <h3 class="full_form">Review Your Tour</h3>
         </div>
         
-        <form action="/" method="POST"  class="flex column">
+        <form action="/" method="POST"  class="flex column" autocomplete="off">
             {% csrf_token %}
             <input type="text" id="username" class="input_field" name="username" placeholder="Username" required>
             <input type="password" id="password" class="input_field" name="password" placeholder="Password" required>
