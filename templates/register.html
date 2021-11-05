@@ -25,7 +25,7 @@
             <h1 class="title">RYT</h1>
             <h3 class="full_form">Review Your Tour</h3>
         </div>
-        <form action="register" method="POST" enctype="multipart/form-data" class="flex column">
+        <form action="register" method="POST" enctype="multipart/form-data" class="flex column" autocomplete="off">
             {% csrf_token %}
             <div onclick="photo_upload();" class="photo_upload">
                 <img id="upload_pic" />

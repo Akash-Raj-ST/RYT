@@ -1,6 +1,6 @@
 {%load static%}
 <div class="add_review_container flex column center" style="display: none;">
-    <form action="add_review" method="POST" enctype="multipart/form-data" class="flex column center upload_form">
+    <form action="add_review" method="POST" enctype="multipart/form-data" class="flex column center upload_form" autocomplete="off">
       {% csrf_token %}
       <div id="upload-area" class="flex column center">
         <div id="gallery" class="flex row center"></div>
