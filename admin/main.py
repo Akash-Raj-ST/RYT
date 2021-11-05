@@ -15,10 +15,10 @@ def get_file_name(file_name):
         else:
             return file_name
 
-def upload_place_data(conn):
+def upload_place_data(conn,csv_name):
     cur = conn.cursor()
     #get image from g_drive and save iti in media
-    with open("admin/place_db.csv","r") as f:
+    with open(f"admin/{csv_name}.csv","r",encoding="utf8") as f:
         reader = csv.reader(f)
         next(reader)
         for data in reader:
@@ -33,7 +33,7 @@ def upload_place_data(conn):
             except:
                 print("[*]Error uploading:\n",data)
                 continue
-
+ 
             #upload data to db
             data[3] = f"place/{file_name}.jpg"
             sql = "INSERT INTO api_places(place_name,link,image,subject,place_type,description) VALUES(%s,%s,%s,%s,%s,%s)"
@@ -67,7 +67,8 @@ if __name__ == "__main__":
     print("[*]1.Upload Place Data from place_db.csv to DB/n")
     option = input("Your Choice:")
     if option=="1":
-        upload_place_data(conn=conn)
+        csv_name = input("Enter CSV file name:");
+        upload_place_data(conn=conn,csv_name=csv_name)
     else:
         print("[*]Connection Closed!!!")
         conn.close()
