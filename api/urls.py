@@ -10,5 +10,6 @@ urlpatterns = [
     path('places/<place_id>', views.places),
     path('review', views.review),
     path('like/<r_id>',views.like),
+    path('search',views.search),
     path('logout', views.logout),
 ]

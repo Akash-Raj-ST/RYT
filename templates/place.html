@@ -70,7 +70,7 @@
             </div>
             <div class="all_sub_places flex column center">
                 {% for sub_place in place.sub_places%}
-                    <div class="sub_place pointer" onclick="window.location='{% url 'place' p_id=sub_place.p_id %}';" id="{{sub_place.place_type}}">
+                    <div class="sub_place pointer" onclick="window.location='{% url 'places' p_id=sub_place.p_id %}';" id="{{sub_place.place_type}}">
                         <h3 class="sub_place_name flex center">{{sub_place.place}}</h3>
                         <img class="sub_place_img" src="{{sub_place.image}}">
                         <h4 class="description flex center">
