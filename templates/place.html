@@ -15,11 +15,11 @@
 
     <title>Document</title>
 </head>
-<body>
     {% include 'header.html' %}
+<body>
     {% include 'add_review.html' %}
 
-    <div class="place_container" onclick="hide_add_review()">
+    <div class="place_container" onclick="hide_add_review();profile_hide();">
         <div class="cover flex center">
             <img src="{{place.image}}" class="cover_img">
             <h3 class="place_name">
