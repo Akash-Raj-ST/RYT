@@ -149,14 +149,16 @@
     padding: 5px;
     border-radius: 10px;
     background-color: #DFA7CC;
-    min-width: 50px;
-    max-width: fit-content;
+    width: fit-content;
+    height: 30px;
     text-align: center;
 }
 
 .filter_container{
     margin:auto;
-    width: fit-content;
+    width: 60%;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .filter:hover{

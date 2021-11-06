@@ -15,11 +15,11 @@
 
     <title>Document</title>
 </head>
-<body>
     {% include 'header.html' %}
+<body>
     {% include 'add_review.html' %}
 
-    <div class="place_container" onclick="hide_add_review()">
+    <div class="place_container" onclick="hide_add_review();profile_hide();">
         <div class="cover flex center">
             <img src="{{place.image}}" class="cover_img">
             <h3 class="place_name">
@@ -34,7 +34,7 @@
             <div class="place_like_review">
                 <h4 class="reviews flex ">{{place.reviews}}&nbspReviews</h4>
                 <div class="place_likes flex row">
-                    <img src="{% static 'img/heart_line.png' %}">
+                    <img src="{% static 'img/heart_fill_white.png' %}">
                     <h4 class="main_like">{{place.likes}}</h4>
                 </div>
             </div>
@@ -61,12 +61,7 @@
 
         <div class="sub_place_container flex column center" style="display:none;">
             <div class="flex  row filter_container">
-                <button class="filter pointer" onclick="filter(this)">All</button>
-                <button class="filter pointer" onclick="filter(this)">Places</button>
-                <button class="filter pointer" onclick="filter(this)">Hilly</button>
-                <button class="filter pointer" onclick="filter(this)">Religious</button>
-                <button class="filter pointer" onclick="filter(this)">Resort</button>
-                <button class="filter pointer" onclick="filter(this)">Beach</button>
+                <button class="filter pointer" onclick="filter(this)" style="background-color:#EC6969">All</button>
             </div>
             <div class="all_sub_places flex column center">
                 {% for sub_place in place.sub_places%}
@@ -91,6 +86,18 @@
     <script src="{% static 'js/like.js' %}"></script>
     <script src="{% static 'js/pics.js' %}"></script>
     <script src="{% static 'js/place.js' %}"></script>
+    <script>
+        const filters = ["Country","State","District","City","Town","Islands","Beach","Beach resorts","Secluded beaches","Mountain","Forest","Dessert","Countryside","Winter sport","Culture and Heritage","Religious","Museum",]
+        var filter_container = document.querySelector(".filter_container")
+        for(i=0;i<filters.length;i++){
+            var button = document.createElement('button');
+            button.setAttribute("class","filter pointer");
+            button.setAttribute("onclick","filter(this)");
+            
+            button.innerHTML = filters[i].replace(" ","&nbsp");
+            filter_container.appendChild(button)
+        }
+    </script>
     <script>
         var rev = document.querySelector(".add_review_container");
         var place = document.querySelector(".place_container");
