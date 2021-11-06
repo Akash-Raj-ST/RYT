@@ -12,7 +12,7 @@
     <title>RYT</title>
 </head>
 <body class="flex row">
-    <section class="left">
+    <section class="left height-fit">
         <div class="left_top">
             <h1 class="title">RYT</h1>
             <h3 class="full_form">Review Your Tour</h3>
@@ -21,15 +21,12 @@
     </section>
 
     <section class="right flex column center">
-        <div class="left_top in_right">
-            <h1 class="title">RYT</h1>
-            <h3 class="full_form">Review Your Tour</h3>
-        </div>
+    
         <form action="register" method="POST" enctype="multipart/form-data" class="flex column" autocomplete="off">
             {% csrf_token %}
-            <div onclick="photo_upload();" class="photo_upload">
-                <img id="upload_pic" />
-                <img onclick="gen_random_dp();event.stopPropagation();" src="{% static 'img/circular-arrow.png' %}" class="circular"/>
+            <div onclick="photo_upload();" class="photo_upload pointer relative">
+                <img id="upload_pic" class="width-100 height-100" />
+                <img onclick="gen_random_dp();event.stopPropagation();" src="{% static 'img/circular-arrow.png' %}" class="circular absolute"/>
             </div>
             <input type="text" id="name" name="name" class="input_field" placeholder="name" required>
             <input type="text" id="username" name="username"class="input_field" placeholder="username" required>
@@ -43,8 +40,8 @@
                 </div>
                
             </div>  
-            <input type="file" name="dp_file" class="file_input" accept="image/*" onchange="loadFile(event)">
-            <input type="url" name="dp_url" class="file_url">
+            <input type="file" name="dp_file" class="file_input absolute" accept="image/*" onchange="loadFile(event)">
+            <input type="url" name="dp_url" class="file_url absolute">
         </form>
 
     </section>
