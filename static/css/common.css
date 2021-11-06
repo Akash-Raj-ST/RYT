@@ -12,7 +12,9 @@
 html{
     font-family: 'Montserrat';
     width: 100%;
+    font-size: 50px;
 }
+
 a{
     text-decoration: none;
     color: black;
@@ -99,19 +101,23 @@ a{
     cursor: pointer;
 }
 
-.verify_s{
-    width: 18px;
-    height: 18px;
-    margin: 0 5px;
-}
-
-.verify_m{
-    width: 30px;
-    height: 30px;
-    margin: 0 5px;
-}
-
 img{
     width: 15px;
     height: 15px;
+}
+
+.width-fit{
+    width: fit-content;
+}
+
+.height-fit{
+    height: fit-content;
+}
+
+.width-100{
+    width: 100%;
+}
+
+.border-box{
+    box-sizing: border-box;
 }

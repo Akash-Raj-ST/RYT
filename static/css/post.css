@@ -152,6 +152,18 @@
     overflow-y:scroll;
 }
 
+.verify_s{
+    width: 18px;
+    height: 18px;
+    margin: 0 5px;
+}
+
+.verify_m{
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+}
+
 @media only screen and (max-width:800px) {
     .post{
         width: 100%;
