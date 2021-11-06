@@ -1,8 +1,10 @@
 :root{
     --pri_col : #F11C1C;
-    --sec_col : blue;
+    --pri_col_light : #da4343;
+    --sec_col : #6C63FF;
+    --sec_col_light : #6b63ffa6;
     --third_col : black;
-    --fourth_col : white;
+    --white : white;
     --backg_col:#EBCBCB;
     --img-blur:#7e7979;
 }
@@ -43,7 +45,7 @@ a{
 
 .button{
     border-radius: 25px;
-    color: var(--fourth_col);
+    color: var(--white);
     background-color: var(--pri_col);
     padding: 5px 25px;
     border: 2px solid black;
@@ -53,7 +55,7 @@ a{
 }
 
 .button:hover{
-    background-color: var(--fourth_col);
+    background-color: var(--white);
     color: var(--pri_col);
 }
 

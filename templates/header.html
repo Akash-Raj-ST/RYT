@@ -1,17 +1,17 @@
 {% load static %}
-<div class="header flex row" onclick="profile_hide()">
+<div class="header flex row height-fit width-100" onclick="profile_hide()">
     <div class="logo flex center">
         <h1 class="title pointer" onclick="window.location='{% url 'home' %}';">RYT</h1>
     </div>
     <div class="search_bar flex center">
-        <input oninput="get_results()" type="search" class="search" id="search" placeholder="search..." autocomplete="off">
-        <img src="{%static 'img/search.svg' %}" alt="s">
+        <input oninput="get_results()" type="search" class="search width-100" id="search" placeholder="search..." autocomplete="off">
+        <img src="{%static 'img/search.svg' %}" alt="s" class="pointer">
     </div>
     <div class="profile"  >
     {% if request.session.user_id%}
-        <div class="flex center dp_container" onclick="profile_click();event.stopPropagation();">
-            <img src="{{request.session.dp}}" alt="dp">
-            <ul class="profile_navbar pointer" style="display:none;">   
+        <div class="flex center relative" onclick="profile_click();event.stopPropagation();">
+            <img src="{{request.session.dp}}" alt="dp" class="pointer">
+            <ul class="profile_navbar pointer absolute width-fit" style="display:none;">   
                 <li><a href="{%url 'profile' user_id=user_id%}">Profile</a></li>
                 <li><a onclick="window.location='{% url 'logout' %}';">Logout</a></li>
             </ul>
@@ -23,7 +23,7 @@
     {% endif %}
     </div>
 </div>
-<div class="spacer"></div>
+<div class="spacer width-100"></div>
 
 <style>
     .search_res{
