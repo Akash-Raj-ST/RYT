@@ -3,7 +3,10 @@
     --sec_col : blue;
     --third_col : black;
     --fourth_col : white;
+    --backg_col:#EBCBCB;
+    --img-blur:#7e7979
 }
+
 *{
     margin: 0%;
     padding: 0%;
@@ -118,6 +121,22 @@ img{
     width: 100%;
 }
 
+.height-100{
+    height: 100%;
+}
+
 .border-box{
     box-sizing: border-box;
+}
+
+.display-none{
+    display: none;
+}
+
+.relative{
+    position:relative
+}
+
+.absolute{
+    position:absolute;
 }
