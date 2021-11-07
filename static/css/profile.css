@@ -1,13 +1,9 @@
-body{
-    position: relative;
-}
+
 
 .top_profile{
-    position: relative;
-    background-color: #F98F8F;
+    background-color: var(--pri_col_light_2);
     margin-bottom: 90px;
     height: 250px;
-    width: 100%;
 }
 
 .user_info{
@@ -19,9 +15,6 @@ body{
     'name name name'
     'rev likes emp';
     
-    width:fit-content;
-    height: 100%;
-    position: absolute;
     top: 22%;
     left: 40%;
 }
@@ -42,7 +35,8 @@ body{
     padding: 5px;
     border-radius: 10px;
     border: 2px solid black;
-    background-color: #FF6363;
+    background-color: var(--pri_col_light);
+    color: var(--white);
 }
 
 .pro_likes{
@@ -51,6 +45,7 @@ body{
     font-size: 0.3rem;
     align-items: center;
     margin-left: 25px;
+    color: var(--white);
 }
 
 .pro_likes img{
@@ -65,8 +60,7 @@ body{
     height: 150px;
     overflow: hidden;
     background-color:rebeccapurple;
-    position: absolute;
-    top: 215px;
+    top: 170px;
     left: 10%;
 }
 
@@ -93,7 +87,7 @@ body{
 
 .my_rev{
     border-right: 2px solid black;
-    background-color: #1879EB;
+    background-color: var(--sec_col);
 }
 
 .like_rev{
