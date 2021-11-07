@@ -2,7 +2,8 @@
     --pri_col : #F11C1C;
     --pri_col_light : #da4343;
     --sec_col : #6C63FF;
-    --sec_col_light : #6b63ffa6;
+    --sec_col_2: #4A5DA0;
+    --sec_col_light : #6b63ffcc;
     --third_col : black;
     --white : white;
     --backg_col:#EBCBCB;
@@ -99,6 +100,10 @@ a{
 
 .column{
     flex-direction: column;
+}
+
+.wrap{
+    flex-wrap: wrap;
 }
 
 /* other */

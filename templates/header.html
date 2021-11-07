@@ -25,27 +25,16 @@
 </div>
 <div class="spacer width-100"></div>
 
-<style>
-    .search_res{
-        position:absolute;
-        top:10%;
-        width:100%;
-        height:fit-content;
-        background-color:white;
-        z-index:10;
-        border: 2px solid black;
-        background-color:rose;
-    }
-</style>
+<link rel="stylesheet" href="{% static 'css/search.css' %}">
 
-<div class="search_res" style="display:none">
+<div class="search_res flex wrap row center border-box width-100 absolute" style="display:none">
     <div class="tab flex row center">
-        <button onclick="show(1)" class="search_spots_button">Spots</button>
-        <button onclick="show(0)" class="search_users_button">Users</button>
+        <h4 onclick="show(1)" class="search_spots_button pointer">Spots</h4>
+        <h4  onclick="show(0)" class="search_users_button pointer">Users</h4>
     </div>
-    <div class="search_spots flex row center">
+    <div class="search_spots flex wrap row center">
     </div>
-    <div class="search_users flex row center" style="display:none">
+    <div class="search_users flex wrap row center" style="display:none">
     </div>
 </div>
 

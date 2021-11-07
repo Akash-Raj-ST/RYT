@@ -5,7 +5,7 @@
     position: fixed;
     padding: 5px;
     background-color: var(--sec_col_light);
-    opacity: 95%;
+    /* opacity: 95%; */
     z-index: 10;
 }
 
