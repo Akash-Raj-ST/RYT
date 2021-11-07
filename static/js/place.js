@@ -9,7 +9,7 @@ function rev_spot(e,n){
     if(n==2){
         console.log("clicked spot");
         console.log("sub_place: ",sub_place);
-        spot.style.backgroundColor = "var(-light_pink)";
+        spot.style.backgroundColor = "var(--light_pink)";
         spot.style.textDecoration = "underline";
 
         rev.style.backgroundColor = "white";
@@ -25,7 +25,7 @@ function rev_spot(e,n){
 
     else{
         console.log("clicked Review");
-        rev.style.backgroundColor = "var(-light_pink)";
+        rev.style.backgroundColor = "var(--light_pink)";
         rev.style.textDecoration = "underline";
 
         spot.style.backgroundColor = "white";
