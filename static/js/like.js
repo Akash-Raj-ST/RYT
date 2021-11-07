@@ -24,14 +24,14 @@ function like_click(e,r_id,u_id){
     
     var like = e.parentNode.querySelector('.like_img');
     
-    var main_like = document.querySelector(".main_like");
+    var update_like = document.querySelector(".update_like");
     if(like.id == "not_liked"){
         like.src = "/static/img/heart_fill.png";
         like.id = "liked";
-        main_like.innerHTML = parseInt(main_like.innerHTML)+1;
+        update_like.innerHTML = parseInt(update_like.innerHTML)+1;
     }else{
         like.id = "not_liked";
         like.src = "/static/img/heart_line.png";
-        main_like.innerHTML = parseInt(main_like.innerHTML)-1;
+        update_like.innerHTML = parseInt(update_like.innerHTML)-1;
     }
 }

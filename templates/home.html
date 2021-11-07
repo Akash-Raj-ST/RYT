@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{%static 'css/home.css' %}">
     <link rel="stylesheet" href="{%static 'css/header.css' %}">
     <link rel="stylesheet" href="{%static 'css/common.css' %}">
+    <link rel="stylesheet" href="{%static 'css/scroll.css' %}">
 
     <title>RYT</title>
 </head>
@@ -15,13 +16,13 @@
 <body>  
 
 
-        <div class="container" onclick="profile_hide()">
+        <div class="container flex column search_hide" onclick="profile_hide()">
             {% for p_type,value in data.items%}
-            <div class="section">
+            <div class="section width-100 height-fit border-box">
                     <h1 class="type">{{p_type}}</h1>
-                    <div class="places">
+                    <div class="places flex row width-100 height-fit">
                         {% for place in value%}
-                            <a class="place_container" href="places\{{place.id}}">
+                            <a class="place_container " href="places\{{place.id}}">
                                 <img src="{{place.img}}" alt="img" class="place_img">
                                 <h3 class="place_name">{{place.place_name}}</h3>
                             </a>

@@ -9,13 +9,15 @@
     <link rel="stylesheet" href="{% static 'css/header.css' %}">
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
     <link rel="stylesheet" href="{% static 'css/post.css' %}">
+    <link rel="stylesheet" href="{% static 'css/scroll.css' %}">
 
     <title>Document</title>
 </head>
     {% include 'header.html' %}
-<body onclick="profile_hide();">
-    <div class="top_profile">
-        <div class="user_info">
+<body>
+    <div class="profile_container relative search_hide flex column center" onclick="profile_hide();" >
+    <div class="top_profile width-100 relative">
+        <div class="user_info width-fit height-100 absolute">
             <h3 class="user_name flex ">
                 {{data.user_name}}
                 {% if data.verified %}
@@ -30,7 +32,7 @@
         </div>
     </div>
 
-    <div class="user_profile">
+    <div class="user_profile absolute">
         <img src="{{data.dp}}">
     </div>
 
@@ -54,7 +56,7 @@
             <h4>No reviews Yet!!!<h4>
         {% endfor %}
     </div>
-
+    </div>
     <script src="{% static 'js/profile.js' %}"></script>
     <script src="{% static 'js/like.js' %}"></script>
     <script src="{% static 'js/pics.js' %}"></script>

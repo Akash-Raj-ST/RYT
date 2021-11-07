@@ -1,56 +1,22 @@
-html{
-    font-size: 50px;
-}
+
 .container{
-    display: flex;
-    flex-direction: column;
     padding-top: 40px;
     margin: 0px 5px 0 25px;
 }
 
 .section{
-    width: 100%;
-    height: fit-content;
-    box-sizing: border-box;
-  
+    padding: 25px;
 }
+
 .type{
-    font-size: 0.5rem;
-    color: var(--sec_col);
+    font-size: 0.6rem;
+    color: var(--sec_col_2);
     font-weight: bold;
     text-transform: capitalize;
 }
 
 .places{
-    display: flex;
-    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
-.place_container{
-    height: 200px;
-    width: 100px;
-    margin: 20px;
-    object-fit: cover;
-    text-decoration: none;
-    padding: 5px;
-
-}
-
-.place_container:hover{
-    background-color: #DFA7CC;
-    padding: 5px;
-    border-radius: 10px;
-}
-
-.place_img{
-    height: 80%;
-    width: 100%;
-}
-.place_name{
-    width: 100%;
-    font-size: 0.4rem;
-    color: #4A5DA0;
-    font-weight: bold;
-    text-transform: capitalize;
-    text-align: center;
-}

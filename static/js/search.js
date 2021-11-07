@@ -10,7 +10,7 @@ function create_spot(spot){
     for(i=0;i<spot.length;i++){ 
         var div = document.createElement('div');
         div.setAttribute("onclick","window.location='/places/"+spot[i]['place_id']+"/';")
-        div.setAttribute("class","place_container")
+        div.setAttribute("class","place_container pointer")
 
         var img = document.createElement('img');
         img.src = spot[i]["place_img"];
@@ -38,7 +38,7 @@ function create_profile(spot){
     for(i=0;i<spot.length;i++){ 
         var div = document.createElement('div');
         div.setAttribute("onclick","window.location='/profile/"+spot[i]['profile_id']+"';")
-        div.setAttribute("class","place_container")
+        div.setAttribute("class","place_container pointer")
 
         var img = document.createElement('img');
         img.src = spot[i]["profile_img"];
@@ -85,11 +85,18 @@ function get_results(){
     window.scrollTo(0,0);
     var q = document.querySelector("#search").value;
     var page = document.querySelector(".search_res");
+    var body_hide = document.querySelector(".search_hide");
+    //transparent disable in header
+    var header = document.querySelector(".header");
     if(q.length>0){
         page.style.display = "block";
+        body_hide.style.display = "none";
+        header.style.backgroundColor = "var(--sec_col)";
         req(q);
     }else{
         page.style.display = "none";
+        body_hide.style.display = "flex";
+        header.style.backgroundColor = "var(--sec_col_light)";
     }
 }
 
@@ -102,14 +109,15 @@ function show(n){
     var users = document.querySelector(".search_users")
 
     if(n==1){
-        spots_button.style.background = "blue";
-        users_button.style.background = "transparent";
+        spots_button.style.borderBottom = "5px solid var(--white)";
+        users_button.style.borderBottom = "none";
 
         spots.style.display = "flex";
         users.style.display = "none";
+
     }else{
-        spots_button.style.background = "transparent";
-        users_button.style.background = "blue";
+        spots_button.style.borderBottom = "none";
+        users_button.style.borderBottom = "5px solid var(--white)";
 
         spots.style.display = "none";
         users.style.display = "flex";

@@ -1,10 +1,19 @@
 :root{
     --pri_col : #F11C1C;
-    --sec_col : blue;
+    --pri_col_light : #da4343;
+    --pri_col_light_2 :#EC6969;
+
+    --sec_col : #6C63FF;
+    --sec_col_2: #4A5DA0;
+    --sec_col_light : #6b63ffcc;
+
     --third_col : black;
-    --fourth_col : white;
+    --white : white;
+
     --backg_col:#EBCBCB;
     --img-blur:#7e7979;
+
+    --light_pink:#DFA7CC;
 }
 
 *{
@@ -20,7 +29,7 @@ html{
 
 a{
     text-decoration: none;
-    color: black;
+    /* color: black; */
     font-weight: bold;
 }
 
@@ -43,7 +52,7 @@ a{
 
 .button{
     border-radius: 25px;
-    color: var(--fourth_col);
+    color: var(--white);
     background-color: var(--pri_col);
     padding: 5px 25px;
     border: 2px solid black;
@@ -53,7 +62,7 @@ a{
 }
 
 .button:hover{
-    background-color: var(--fourth_col);
+    background-color: var(--white);
     color: var(--pri_col);
 }
 
@@ -99,6 +108,10 @@ a{
     flex-direction: column;
 }
 
+.wrap{
+    flex-wrap: wrap;
+}
+
 /* other */
 .pointer{
     cursor: pointer;
@@ -139,4 +152,40 @@ img{
 
 .absolute{
     position:absolute;
+}
+/* place */
+.place_container{
+    height: 250px;
+    max-height: fit-content;
+    min-width: 350px;
+    max-width: 400px;
+    margin: 20px;
+    object-fit: cover;
+    text-decoration: none;
+    padding: 15px;
+}
+
+.place_container:hover{
+    /* background-color: #DFA7CC; */
+    background-color: var(--sec_col_light);
+    border-radius: 10px;
+}
+
+.place_container:hover .place_name{
+    color: var(--white);
+}
+
+.place_img{
+    height: 80%;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.place_name{
+    width: 100%;
+    font-size: 0.4rem;
+    color: var(--sec_col_2);
+    font-weight: bold;
+    text-transform: capitalize;
+    text-align: center;
 }

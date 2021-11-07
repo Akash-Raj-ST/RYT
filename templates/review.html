@@ -1,16 +1,16 @@
 {% load static %}
-            <div class="post" id="review-{{review.r_id}}">
+            <div class="post height-fit flex column border-box" id="review-{{review.r_id}}">
                 <div class="all_top flex center">
                     <section class="post_header">
                         <img src="{{review.user_dp}}" alt="" class="dp">
-                        <h3 class="username" onclick="window.location='{% url 'profile' user_id=review.u_id %}';">
+                        <h3 class="username flex pointer" onclick="window.location='{% url 'profile' user_id=review.u_id %}';">
                             {{review.username}}
                             {% if review.verified %}
                                 <img src="{% static 'img/verified.svg' %}" class="verify_s">
                             {% endif %}
                         </h3>
                         
-                        <div class="tags">
+                        <div class="tags flex row wrap">
                             {%for tag in review.tags%}
                                 <h3 class="tag">#{{tag}}</h3>
                             {% endfor %}
@@ -19,38 +19,38 @@
                     </section>
                     <h5 class="date flex center">{{review.date}}</h5>
                 </div>
-                <section class="post_middle">
-                    <div class="pics" id="{{post_no}}">
+                <section class="post_middle flex column">
+                    <div class="pics flex row wrap relative width-100" id="{{post_no}}">
                         {%if review.r_pic%}
-                            <div class="nav_b" id="0">
-                                <img src="{%static 'img/left_nav.svg'%}" class="nav" onclick="show_slide(this,-1)" alt="<-">
-                                <img src="{%static 'img/right_nav.svg'%}" class="nav" onclick="show_slide(this,1)" alt="->">
+                            <div class="nav_b flex row absolute width-100" id="0">
+                                <img src="{%static 'img/left_nav.svg'%}" class="nav pointer" onclick="show_slide(this,-1)" alt="<-">
+                                <img src="{%static 'img/right_nav.svg'%}" class="nav pointer" onclick="show_slide(this,1)" alt="->">
                             </div>
-                            <div class="images">
+                            <div class="images width-100">
                                 {%for pic in review.r_pic%}
                                 {% comment %} index:{{forloop.counter}} {% endcomment %}
-                                    <img src="{{pic}}" alt="img" class="post_pic" id="pic_id">  
+                                    <img src="{{pic}}" alt="img" class="post_pic width-100" id="pic_id">  
                                 {% endfor %}
                             </div>
                         {% endif %}
                     </div>
-                    <div class="bubbles">
+                    <div class="bubbles flex row center">
                         {%for pic in review.r_pic%}
                             <div class="circle"></div>
                         {% endfor %}   
                     </div>
-                    <div class="likes">
+                    <div class="likes flex row center">
                     {%if review.liked%}
-                        <img src="{% static 'img/heart_fill.png'%}" alt="" class="like_img" id="liked" onclick="like_click(this,{{review.r_id}},{{user_id}})">
+                        <img src="{% static 'img/heart_fill.png'%}" alt="" class="like_img pointer" id="liked" onclick="like_click(this,{{review.r_id}},{{user_id}})">
                     {% else %} 
-                        <img src="{% static 'img/heart_line.png'%}" alt="" class="like_img" id="not_liked" onclick="like_click(this,{{review.r_id}},{{user_id}})">
+                        <img src="{% static 'img/heart_line.png'%}" alt="" class="like_img pointer" id="not_liked" onclick="like_click(this,{{review.r_id}},{{user_id}})">
                     {% endif %}
                         <h4 class="tot_likes">{{review.likes}}</h4>
                     </div>
                 </section>
 
                 <section class="post_footer">
-                    <p class="review">
+                    <p class="review height-fit">
                        {{review.content}}
                     </p>
                 </section>
