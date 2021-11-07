@@ -1,16 +1,9 @@
 
-.place_container{
+.place_img_container{
     z-index: 3;
 }
 
-.cover{
-    width: 100%;
-    box-sizing: border-box;
-}
-
 .cover_img{
-    position: relative;
-    box-sizing: border-box;
     width: 95%;
     height: 80vh;
     margin: 5px;
@@ -18,59 +11,59 @@
     border-radius: 15px;
 }
 
-.place_name{
-    position: absolute;
+.place_img_name{
     top: 50%;
     left: 50%;
-    color:white;
     font-size: 1rem;
     transform: translate(-50%,-50%);
+    width: 80%;
+    height: fit-content;
+}
+
+.place_img_name a{
+    background-color: var(--pri_col_light_2);
+    color:var(--white);
     border-radius: 15px;
-    background-color: #EC6969;
-    padding: 5px;
+    padding: 15px;
+    max-width: 100%;
+    text-align: center;
 }
 
 .place_sub{
-    position: absolute;
-    top: 60%;
-    left: 50%;
-    color:white;
+    color:var(--white);
     font-size: 0.4rem;
-    transform: translate(-50%,-50%);
 
     border-radius: 15px;
-    background-color: #EC6969;
-    padding: 5px;
+    background-color: var(--pri_col_light_2);
+    padding: 15px;
+    margin-top: 30px;
+    text-align: center;
 }
 
 .info{
-    position: absolute;
     top: 13%;
     left: 5%;
     padding: 5px;
     border-radius: 50px;
-    background-color: #6B8BDD;
+    background-color: var(--sec_col);
 }
 
 .info_desc{
-    position: absolute;
     top: 17%;
     left: 7%;
     font-size: 0.3rem;
     font-weight: bold;
     border:2px solid black;
     border-radius: 12px;
-    background-color: white;
-    width: fit-content;
+    background-color: var(--white);
     max-width: 50%;
-    height: fit-content;
     padding: 10px;
     display: none;
     z-index: 5;
 }
 
 .info:hover{
-    background-color: #EC6969;
+    background-color: var(--pri_col_light_2);
 }
 
 
@@ -81,23 +74,20 @@
     display: block;
 }
 .info:focus{
-    background-color: #EC6969;
+    background-color: var(--pri_col_light_2);
 }
 
 .place_like_review{
-    position: absolute;
     right: 10%;
     bottom: 12%;
     font-size: 0.45rem;
-    display: flex;
-    flex-direction: row;
-    color: white;
+    color: var(--white);
 }
 
 .place_like_review > *{
     border: 2px solid black;
     border-radius: 15px;
-    background-color: #EC6969;
+    background-color: var(--pri_col_light_2);
     padding: 5px 10px;
     width: fit-content;
     height: fit-content;
@@ -127,12 +117,16 @@
     border-radius: 15px;
 }
 .rev:hover,.spot:hover{
-    background-color: #DFA7CC !important;
+    background-color: var(--light_pink) !important;
 }
 
 .rev_choi .rev{
-    background-color: #DFA7CC;
+    background-color: var(--light_pink);
     text-decoration: underline;
+}
+
+.button{
+    font-size: 0.4rem;
 }
 
 .add_rev{
@@ -143,12 +137,12 @@
 .filter{
     font-size: 0.4rem;
     font-weight: normal;
-    color: white;
+    color: var(--white);
     border: none;
     margin: 5px;
     padding: 5px;
     border-radius: 10px;
-    background-color: #DFA7CC;
+    background-color: var(--light_pink);
     width: fit-content;
     height: 30px;
     text-align: center;
@@ -157,10 +151,20 @@
 .filter_container{
     margin:auto;
     width: 60%;
-    overflow-x: auto;
-    overflow-y: hidden;
 }
 
 .filter:hover{
-    background-color: #EC6969;
+    background-color: var(--pri_col_light_2);
+}
+
+@media only screen and (max-width:800px) {
+    .choices{
+        flex-direction: column;
+    }
+    .add_rev{
+        margin-bottom: 10px;
+    }
+    .filter_container{
+        width: 90%;
+    }
 }

@@ -3,18 +3,19 @@
 }
 
 .sub_place{
-    border: 2px solid black;
-    width: 60%;
+    border: 5px solid var(--sec_col_light);
+    border-radius: 10px;
+    width: 80%;
     height: fit-content;
 
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-areas: 
-    'title  image'
+    'title  title'
     'desc  image'
     'desc  image'
     'type image';
-
+    grid-gap: 15px;
     padding: 5px; 
     margin-bottom: 10px;  
 }
@@ -23,13 +24,14 @@
     grid-area: title;
     font-size: 0.5rem;
     padding: 5px;
+    text-align: center;
 }
 
 .sub_place_img{
     grid-area: image;
     width: 100%;
     height: auto;
-    border-left: 2px solid black;
+    margin: auto;
 }
 
 .description{
@@ -40,8 +42,8 @@
 
 .type{
     grid-area: type;
-    font-size: 0.4rem;
-    font-weight: bold;
+    font-size: 0.3rem;
+    /* font-weight: bold; */
     align-items: flex-end;
     justify-content: end;
 }
@@ -49,18 +51,13 @@
 .type h3{
     padding: 5px;
     border-radius: 5px;
-    background-color: aqua;
+    background-color: var(--sec_col_light);
+    color: var(--white);
 }
 
-@media only screen and (max-width:900px) {
+@media only screen and (max-width:800px) {
     .sub_place{
-        width: 100%;
-    } 
-}
-
-@media only screen and (max-width:500px) {
-    .sub_place{
-        grid-template-rows: 0.5fr 1fr 0.7fr 0.5fr;
+        grid-template-rows:repeat(4,fit-content);
         grid-template-columns: 1fr;
         grid-template-areas: 
         'title'

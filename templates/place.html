@@ -12,26 +12,27 @@
     <link rel="stylesheet" href="{% static 'css/post.css' %}">
     <link rel="stylesheet" href="{% static 'css/sub_place.css' %}">
     <link rel="stylesheet" href="{% static 'css/add_review.css' %}">
+    <link rel="stylesheet" href="{% static 'css/scroll.css' %}">
 
     <title>Document</title>
 </head>
     {% include 'header.html' %}
 <body>
     {% include 'add_review.html' %}
-
-    <div class="place_container" onclick="hide_add_review();profile_hide();">
-        <div class="cover flex center">
-            <img src="{{place.image}}" class="cover_img">
-            <h3 class="place_name">
+    
+    <div class="place_img_container flex column center search_hide" onclick="hide_add_review();profile_hide();">
+        <div class="cover flex center width-100 border-box">
+            <img src="{{place.image}}" class="cover_img relative border-box">
+            <div class="place_img_name absolute flex column center">
                 <a href="//{{place.link}}" target="_blank">{{place.place}}</a>
-            </h3>
-            <h2 class="place_sub">{{place.subject}}</h2>
+                <h2 class="place_sub">{{place.subject}}</h2>
+            </div>
             <div class="info_container flex row">
-                <img class="info pointer" src="{% static 'img/info.svg' %}" alt="des" tabindex="0">
-                <p class="info_desc">{{place.description}}</p>
+                <img class="info absolute pointer" src="{% static 'img/info.svg' %}" alt="des" tabindex="0">
+                <p class="info_desc absolute width-fit height-fit">{{place.description}}</p>
 
             </div>
-            <div class="place_like_review">
+            <div class="place_like_review flex row absolute">
                 <h4 class="reviews flex ">{{place.reviews}}&nbspReviews</h4>
                 <div class="place_likes flex row">
                     <img src="{% static 'img/heart_fill_white.png' %}">
@@ -40,12 +41,12 @@
             </div>
         </div>
 
-        <div class="flex row" style="width:100%;">
+        <div class="choices flex row center" style="width:100%;">
             <button class="button add_rev" onclick="add_review();event.stopPropagation();">Add&nbspReview</button>
             <div class=" rev_choi flex row center">
-                <h3 class="pointer rev" onclick="rev_spot(this,1)">Reviews</h3>
+                <h3 class="rev pointer " onclick="rev_spot(this,1)">Reviews</h3>
                 <h2> | </h2>
-                <h3 class="pointer spot" onclick="rev_spot(this,2)">Spots</h3>
+                <h3 class="spot pointer " onclick="rev_spot(this,2)">Spots</h3>
             </div>
         </div>
         
@@ -60,7 +61,7 @@
         </div>
 
         <div class="sub_place_container flex column center" style="display:none;">
-            <div class="flex  row filter_container">
+            <div class="flex row wrap filter_container">
                 <button class="filter pointer" onclick="filter(this)" style="background-color:#EC6969">All</button>
             </div>
             <div class="all_sub_places flex column center">
@@ -100,7 +101,7 @@
     </script>
     <script>
         var rev = document.querySelector(".add_review_container");
-        var place = document.querySelector(".place_container");
+        var place = document.querySelector(".place_img_container");
 
         function add_review(){
             console.log("add_review");
