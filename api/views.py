@@ -6,6 +6,16 @@ from .models import Accounts, Places, Place_map, Review, Review_like, Review_pic
 
 from rest_framework.authtoken.models import Token
 
+from .password import KEY
+
+def encrypt(password):
+    enc = KEY.encrypt(bytes(password,"utf-8"))
+    return enc.decode("utf-8")
+
+def decrypt(password):
+    dec = KEY.decrypt(bytes(password,"utf-8"))
+    return dec.decode("utf-8")
+
 def check_auth(request):
     try:
         user_id = request.data['user_id']
@@ -110,7 +120,7 @@ def login(request):
             token,created = Token.objects.get_or_create(user=user_obj)
             token_key = token.key
             ret_pass = user_obj.password
-            if ret_pass == password:
+            if decrypt(ret_pass) == password:
                 user_id = user_obj.user_id
                 data = {"message": "Login Successful", "user_id": user_id,"key":token_key,"dp":user_obj.dp.url}
                 return Response(data, status=status.HTTP_202_ACCEPTED)
@@ -123,7 +133,7 @@ def register(request):
     if request.method == "POST":
         username = request.data['username']
         email = request.data['email']
-
+        request.data['password'] = encrypt(request.data['password'])
         error = False
         msgs = []
         if Accounts.objects.filter(username=username).exists():

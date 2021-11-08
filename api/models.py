@@ -74,7 +74,7 @@ class Accounts(AbstractBaseUser):
     name = models.CharField(max_length=25)
     username = models.CharField(unique=True, max_length=25)
     email = models.EmailField(unique=True)
-    password = models.TextField(max_length=25)
+    password = models.TextField(max_length=250)
     dp = models.ImageField(upload_to="user_dp",default=None)
     verified = models.BooleanField(default=False)
 
