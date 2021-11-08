@@ -116,7 +116,7 @@ class Review(models.Model):
     p_id = models.ForeignKey('Places', on_delete=models.CASCADE)
     u_id = models.ForeignKey('Accounts', on_delete=models.CASCADE)
     r_id = models.BigAutoField(primary_key=True)
-    content =  models.TextField(max_length=400)
+    content =  models.TextField(max_length=1500)
     likes = models.IntegerField(default=0)
     date_uploaded = models.DateField(default=timezone.now)
 
