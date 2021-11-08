@@ -19,6 +19,7 @@
 <script> 
   function handleFiles(files) {
     files = [...files]
+    document.getElementById('gallery').innerHTML="";
     files.forEach(previewFile)
   }
 
