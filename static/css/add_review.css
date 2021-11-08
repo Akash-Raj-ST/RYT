@@ -48,11 +48,17 @@ textarea{
 .input_review{
   height: 150px;
   outline: none;
+  margin-top: 0%;
 }
 
 .input_tag{
   height: 70px;
   outline: none;
+}
+
+.content-label{
+  font-size: 0.3rem;
+  margin-top: 10px;
 }
 
 @media only screen and (max-width:800px) {

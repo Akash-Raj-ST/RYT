@@ -7,8 +7,10 @@
         <input type="file" name="images" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
         <label class="button add_img" for="fileElem">Add images</label>
       </div>
+
+      <label for="content" class="content-label width-100">0/1500</label>
+      <textarea id="content" name="content" cols="50" rows="10" oninput="input_review_check()" class="input_field input_review width-100 border-box" placeholder="Share your Experience" required></textarea>
       
-      <textarea name="content" cols="50" rows="10" class="input_field input_review width-100 border-box" placeholder="Share your Experience" required></textarea>
       <textarea oninput="show_tag(this)" id="rev_tag" name="tags" cols="50" rows="10" class="input_field input_tag width-100 border-box" placeholder="Tags..." onkeydown="return (event.keyCode!=13);">#</textarea>
       <button class="button center" type="submit">Submit</button>
     </form>
@@ -29,21 +31,7 @@
       document.getElementById('gallery').appendChild(img)
     }
   }
-//handling tags
 
-  {% comment %} tag = document.querySelector("#rev_tag");
-  tag.addEventListener('keydown', function(event) {
-    const key = event.key; // const {key} = event; ES6+
-    if (key === "Backspace") {
-      console.log("backspace");
-      console.log("length: "+tag.length);
-      tag.value = tag.value.substring(0,tag.length-2).trim();
-    }
-    if(tag.length==0){
-      tag.value = "#";
-      return;
-    }
-  }); {% endcomment %}
   var pre_len = 1;
 
   function show_tag(e){
@@ -75,4 +63,24 @@
     }
     pre_len = e.value.length;
   }
+</script>
+
+<script>
+
+  function input_review_check(){
+    var rev = document.querySelector(".input_review");
+    var label = document.querySelector(".content-label");
+    label.style.color = "black";
+
+    var rev_len = rev.value.length;
+    label.innerHTML = rev_len+"/1500";
+
+    if(rev_len>1500){
+      rev.value = rev.value.substring(0,1500);
+      label.innerHTML = rev.value.length+"/1500";
+    }
+    if(rev_len>=1500)
+      label.style.color = "red";
+  }
+
 </script>
