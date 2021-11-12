@@ -38,7 +38,7 @@ function create_profile(spot){
     for(i=0;i<spot.length;i++){ 
         var div = document.createElement('div');
         div.setAttribute("onclick","window.location='/profile/"+spot[i]['profile_id']+"';")
-        div.setAttribute("class","place_container pointer")
+        div.setAttribute("class","place_container profile_container pointer")
 
         var img = document.createElement('img');
         img.src = spot[i]["profile_img"];

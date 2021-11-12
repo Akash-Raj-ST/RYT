@@ -45,8 +45,10 @@
             <button class="button add_rev" onclick="add_review();event.stopPropagation();">Add&nbspReview</button>
             <div class=" rev_choi flex row center">
                 <h3 class="rev pointer " onclick="rev_spot(this,1)">Reviews</h3>
-                <h2> | </h2>
-                <h3 class="spot pointer " onclick="rev_spot(this,2)">Spots</h3>
+                {% if place.sub_places%}
+                    <h2> | </h2>
+                    <h3 class="spot pointer " onclick="rev_spot(this,2)">Spots</h3>
+                {% endif %}
             </div>
         </div>
         
@@ -60,6 +62,7 @@
             {% endfor %}
         </div>
 
+        {% if place.sub_places%}
         <div class="sub_place_container flex column center" style="display:none;">
             <div class="flex row wrap filter_container">
                 <button class="filter pointer" onclick="filter(this)" style="background-color:#EC6969">All</button>
@@ -81,6 +84,7 @@
                 {% endfor %}
             </div>
         </div>
+        {% endif %}
     </div>
     
     

@@ -31,6 +31,7 @@ place_types = (
     ("Culture and Heritage","Culture and Heritage"),
     ("Religious","Religious"),
     ("Museum","Museum"),
+    ("Educational","Educational"),
 )
 
 #User Model Manager

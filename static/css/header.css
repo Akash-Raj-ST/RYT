@@ -86,3 +86,7 @@ li a:hover {
 .spacer{
     height: 60px;
 }
+
+.profile_container{
+    min-width: 50px !important;
+}

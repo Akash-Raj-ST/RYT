@@ -9,12 +9,14 @@ from .models import Accounts, Places, Review, Place_map, Review_like, Review_pic
 class AdminAccounts(admin.ModelAdmin):
     list_display = ("user_id","username","verified","dp")
     list_filter = ("verified",)
+    list_editable = ("verified","dp")
 
 @admin.register(Places)
 class AdminPlaces(admin.ModelAdmin):
     list_display = ("p_id","place_name","subject","place_type","image","link")
     list_filter = ("place_type",)
     search_fields = ("place_name__startswith",)
+    list_editable = ("place_type","image")
 
 @admin.register(Place_map)
 class AdminPlace_map(admin.ModelAdmin):
