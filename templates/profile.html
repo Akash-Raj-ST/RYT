@@ -10,11 +10,13 @@
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
     <link rel="stylesheet" href="{% static 'css/post.css' %}">
     <link rel="stylesheet" href="{% static 'css/scroll.css' %}">
+    <link rel="stylesheet" href="{%static 'css/error.css' %}">
 
     <title>Document</title>
 </head>
     {% include 'header.html' %}
 <body>
+    {% include 'error.html' %}
     <div class="profile_container relative search_hide flex column center" onclick="profile_hide();" >
     <div class="top_profile width-100 relative">
         <div class="user_info width-fit height-100 absolute">

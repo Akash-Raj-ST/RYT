@@ -9,12 +9,14 @@
     <link rel="stylesheet" href="{%static 'css/header.css' %}">
     <link rel="stylesheet" href="{%static 'css/common.css' %}">
     <link rel="stylesheet" href="{%static 'css/scroll.css' %}">
+    <link rel="stylesheet" href="{%static 'css/error.css' %}">
 
     <title>RYT</title>
 </head>
         {% include 'header.html' %}
 <body>  
 
+        {% include 'error.html' %}
 
         <div class="container flex column search_hide" onclick="profile_hide()">
             {% for p_type,value in data.items%}

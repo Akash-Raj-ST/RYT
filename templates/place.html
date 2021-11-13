@@ -13,12 +13,14 @@
     <link rel="stylesheet" href="{% static 'css/sub_place.css' %}">
     <link rel="stylesheet" href="{% static 'css/add_review.css' %}">
     <link rel="stylesheet" href="{% static 'css/scroll.css' %}">
+    <link rel="stylesheet" href="{%static 'css/error.css' %}">
 
     <title>Document</title>
 </head>
     {% include 'header.html' %}
 <body>
     {% include 'add_review.html' %}
+    {% include 'error.html' %}
     
     <div class="place_img_container flex column center search_hide" onclick="hide_add_review();profile_hide();">
         <div class="cover flex center width-100 border-box">

@@ -143,7 +143,7 @@ def register(request):
         if Accounts.objects.filter(username=username).exists():
             msgs.append("Username Taken")
             error = True
-        if Accounts.objects.filter(email=email):
+        if Accounts.objects.filter(email=email).exists():
             msgs.append("Email already used")
             error = True
         if error:

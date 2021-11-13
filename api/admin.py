@@ -7,7 +7,7 @@ from .models import Accounts, Places, Review, Place_map, Review_like, Review_pic
 # Register your models here.
 @admin.register(Accounts)
 class AdminAccounts(admin.ModelAdmin):
-    list_display = ("user_id","username","verified","dp")
+    list_display = ("user_id","username","email","verified","dp")
     list_filter = ("verified",)
     list_editable = ("verified","dp")
 

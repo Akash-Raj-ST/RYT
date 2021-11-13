@@ -8,10 +8,12 @@
 
     <link rel="stylesheet" href="{% static 'css/common.css'%}">
     <link rel="stylesheet" href="{% static 'css/register.css'%}">
+    <link rel="stylesheet" href="{%static 'css/error.css' %}">
 
     <title>RYT</title>
 </head>
 <body class="flex row">
+    {% include 'error.html' %}
     <section class="left height-fit">
         <div class="left_top">
             <h1 class="title">RYT</h1>

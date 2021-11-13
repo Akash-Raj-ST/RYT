@@ -74,6 +74,7 @@ def login(request):
             request.session["token"] = response_json["key"]
             request.session["user_id"] = response_json["user_id"]
             request.session["dp"] = response_json["dp"]
+            messages.success(request, response_json['message'])
             return redirect(home)
         else:
             messages.error(request, response_json['message'])
@@ -112,9 +113,12 @@ def register(request):
             request.session["token"] = response_json["key"]
             request.session["user_id"] = response_json["user_id"]
             request.session["dp"] = response_json["dp"]
+            messages.success(request, response_json['message'])
             return redirect(home)
         else:
-            return HttpResponse(response_json['message'])
+            for warning_msg in response_json["message"]:
+                messages.warning(request, warning_msg)
+            return render(request,"register.html")
         # return HttpResponse("ok")
 
     elif request.method == "GET":
@@ -129,8 +133,9 @@ def profile(request,user_id):
         }
     )
     response = request_api(f"profile/{user_id}",payload,method="GET",token=request.session["token"])
+    response_json = json.loads(response.text)
+
     if response.ok:
-        response_json = json.loads(response.text)
         return render(request,"profile.html",{"data":response_json["data"],"user_id":request.session["user_id"] })
     else:
         return redirect("login")
@@ -170,7 +175,9 @@ def place(request,p_id):
     
 def add_review(request,p_id):
     if not check_session(request):
+        request.warning(request,"Login to add Review")
         return render(request, "login.html")
+
     if request.method == "POST":
         payload ={
             "p_id":p_id,
@@ -188,10 +195,13 @@ def add_review(request,p_id):
             pic_files.append(("r_pic",pic))
         # print(payload)
         response = request_api_files("review",payload=payload,files=pic_files,method="POST",token=request.session["token"])
+        response_json = json.loads(response.text)
         if response.ok:
-            response_json = json.loads(response.text)
+            messages.success(request,response_json["message"])
             return redirect(f"/places/{p_id}/")
-        return HttpResponse("Failed adding review ")  
+        else:
+            messages.warning(request,response_json["message"])
+            return HttpResponse("Failed adding review ")  
 
 def logout(request):
 
@@ -200,7 +210,9 @@ def logout(request):
         del request.session["user_id"]
         del request.session["dp"]
         print("Logged out successfully")
+        messages.success(request,"Logged out successfully")
     except:
         print("Not logged in")
+        messages.error(request,"Not logged in")
 
     return redirect("login")
