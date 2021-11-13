@@ -5,6 +5,7 @@ import gdown
 import glob
 import random
 TEST = True
+DEBUG = True
 
 def get_file_name(file_name):
     file_name_jpg = file_name+".jpg"
@@ -29,7 +30,7 @@ def upload_place_data(conn,csv_name):
 
         place_name = ''.join(place_name.split()).lower()
 
-        if TEST:
+        if DEBUG:
             print(data,"\n",place_name)
 
         if place_name in data:
@@ -56,14 +57,20 @@ def upload_place_data(conn,csv_name):
             file_id = image_url.split("=")[-1]
             file_name = get_file_name(data[1])
 
-            subject = data[4]
-            if len(subject)>100:
+            if len(data[4])>100:
                 if TEST:
-                    subject = subject[:99]
+                    data[4] = data[4][:99]
+                    print("[*]Subject Trimmed")
                 else:
                     print("[*]Subject length is greater than 100")
                     continue
-
+            
+            if len(data[6])>400:
+                if TEST:
+                    data[6] =data[6][:400]
+                    print("[*]Description Trimmed")
+                else:
+                    print("[*]Description length is greater than 100")
             try:
                 url = image_url.replace("open", "uc")
                 output = f'./media/place/{file_name}.jpg'
@@ -79,7 +86,7 @@ def upload_place_data(conn,csv_name):
                 cur.execute(sql,tuple(data[1:]))
                 print(f"[*] {place_name} added successfully :)")
             except:
-                if TEST:
+                if DEBUG:
                     print(tuple(data[1:]))  
                 print(f"[*]Error uploading data({place_name}) to db :(")
             conn.commit()
@@ -94,12 +101,12 @@ def upload_review_data(conn,csv_name):
             user = data[1]
             place = data[2]
             content = data[3]
-            tags = data[4].split(" ")
+            tags = data[4].strip().split(" ")
             likes = data[5]
             date = data[6]
             images = data[7].split(";")
 
-            if TEST:
+            if DEBUG:
                 print("User: ",user)
                 print("Place: ",place)            
                 print("Content: ",content)
@@ -128,6 +135,8 @@ def upload_review_data(conn,csv_name):
 
             sql = "INSERT INTO api_review_tag(tags,r_id_id) VALUES(%s,%s)"
             for tag in tags:
+                if tag[0] == "#":
+                    tag = tag[1:]
                 cur.execute(sql,(tag,review_id))
 
             sql = "INSERT INTO api_review_pic(r_pic,r_id_id) VALUES(%s,%s)"
@@ -146,6 +155,23 @@ def upload_review_data(conn,csv_name):
                 cur.execute(sql,(file_url,review_id))
 
             conn.commit()
+
+def map_data(conn):
+    cur = conn.cursor()
+
+    main_place_id = int(input("Enter main place id:"))
+    sub_place_st = int(input("Subplace start id:"))
+    sub_place_en = int(input("Subplace end id:"))
+
+    if main_place_id==sub_place_en or main_place_id==sub_place_st:
+        print("[*]Main place cannot be subplace")
+        return
+    sql = "INSERT INTO api_place_map(pm_id_id,spm_id_id) VALUES(%s,%s)"
+    for i in range(sub_place_st,sub_place_en+1):
+        cur.execute(sql,(main_place_id,i))
+        if DEBUG:
+            print(f"Map: {main_place_id}:{i}")
+    conn.commit()
 
 def connect():
 
@@ -166,9 +192,11 @@ def connect():
 
 if __name__ == "__main__":
     conn = connect()
-
     print("[*]1.Upload Place Data from csv to DB")
     print("[*]2.Upload Review Data from csv to DB")
+    print("[*]3.Map Place Data")
+
+    print('--Check if permissions are provided--')
 
     option = input("Your Choice:")
     if option=="1":
@@ -177,6 +205,8 @@ if __name__ == "__main__":
     elif option=="2":
         csv_name = input("Enter CSV file name: ")
         upload_review_data(conn=conn,csv_name=csv_name)
+    elif option=="3":
+        map_data(conn)
     else:
         print("[*]Connection Closed!!!")
         conn.close()

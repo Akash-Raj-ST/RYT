@@ -63,7 +63,6 @@ def login(request):
     elif request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print(username,password)
         payload = json.dumps({
             "username": username,
             "password": password
@@ -149,7 +148,6 @@ def home(request):
         #     for place in data[p_type]:
         #         print(place['id'],"\t",place['place_name'],"\t",place["img"])
         # print("--------------------")
-        print(data)
         return render(request,"home.html",{"data":data,"user_id":request.session["user_id"]})
 
 def place(request,p_id):
@@ -159,7 +157,6 @@ def place(request,p_id):
         response = request_api(f"places/{p_id}",method="GET",token=request.session["token"])
         response_json = json.loads(response.text)
         place_data = response_json["data"]
-        print(response_json)
         payload = json.dumps({
                 "p_id":p_id,
                 "user_id":request.session["user_id"]
