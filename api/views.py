@@ -8,6 +8,8 @@ from rest_framework.authtoken.models import Token
 
 from .password import KEY
 
+DEBUG = False
+
 def encrypt(password):
     enc = KEY.encrypt(bytes(password,"utf-8"))
     return enc.decode("utf-8")
@@ -21,12 +23,14 @@ def check_auth(request):
         user_id = request.data['user_id']
         token = request.headers["token"]
     except:
-        print("user_id and token needed")
+        if DEBUG:
+            print("user_id and token needed")
         return False
 
     error = False
     if not user_id:
-        print("Need credentials")
+        if DEBUG:
+            print("Need credentials")
         error = True
     # if not token:
     #     print("token needed")
@@ -232,7 +236,8 @@ def get_subplace(place_id):
             sub_data["likes"] = 0
             for place_rev in place_revs:
                 sub_data["likes"] += place_rev.likes
-            print(sub_data)
+            if DEBUG:
+                print(sub_data)
             sp_all.append(sub_data)
     
         return sp_all
@@ -260,7 +265,6 @@ def places(request, place_id):
             data["likes"] = 0
             for place_rev in place_revs:
                 data["likes"] += place_rev.likes
-            # print(data)
             # get subplaces
             subplaces = get_subplace(place_id)
             #add likes and review of subplace to mainplace
@@ -290,6 +294,9 @@ def review(request):
         all_place_id = [x.spm_id.p_id for x in sub_places]
         all_place_id.append(place_id)
 
+        if DEBUG:
+            print(all_place_id)
+
         all_data = [] #contains details of all reviews
         for place_id in all_place_id:
             place_obj = Places.objects.filter(p_id=place_id) 
@@ -304,10 +311,12 @@ def review(request):
 
                     for rev in get_review_data(review_objs, login_user):
                         all_data.append(rev)
-                    data = {"message": "Reviews Fetched Successfully", "data": all_data}
-                else:
-                    msg = "No reviews yet"
-                    data = {"message": msg, "data": None}
+        if all_data:
+            data = {"message": "Reviews Fetched Successfully", "data": all_data}
+        else:
+            msg = "No reviews yet"
+            data = {"message": msg, "data": None}
+            
         all_data.sort(key= lambda x:x["likes"],reverse=True)
         return Response(data, status=status.HTTP_202_ACCEPTED)
 
@@ -329,7 +338,6 @@ def review(request):
 
                     #data for tag table
                     tags = request.data.getlist("tags")
-                    print(tags)
                     tag_serializers = []
                     tag_prob = False
                     for tag in tags:
@@ -410,11 +418,13 @@ def like(request,r_id):
             tot_likes = review_obj.likes
 
             if liked: #already liked so dislike
-                print("Alreay Liked so dislike")
+                if DEBUG:
+                    print("Alreay Liked so dislike")
                 liked.delete()
                 likes = tot_likes - 1
             else:
-                print("Not Liked so liking")
+                if DEBUG:
+                    print("Not Liked so liking")
                 likes = tot_likes + 1
                 like_data = {
                     "r_id":r_id,
