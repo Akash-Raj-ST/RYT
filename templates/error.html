@@ -10,7 +10,6 @@
                         <div class="error danger">
                             <img src="{%static 'img/danger_img.svg' %}" alt="Error">
                             <h4 >{{message}}</h4>
-                            <img src="{%static 'img/close.svg' %}" alt="close" onclick="clear_error(this)">
                         </div>
                     </div>
                 {% endif%}
@@ -20,7 +19,6 @@
                         <div class="error warning">
                             <img src="{%static 'img/warning.svg' %}" alt="Warning">
                             <h4 >{{message}}</h4>
-                            <img src="{%static 'img/close.svg' %}" alt="close" onclick="clear_error(this)">
                         </div>
                     </div>
                 {% endif%}
@@ -30,7 +28,6 @@
                         <div class="error success">
                             <img src="{%static 'img/success_img.svg' %}" alt="Success">
                             <h4 >{{message}}</h4>
-                            <img src="{%static 'img/close.svg' %}" alt="close" onclick="clear_error(this)">
                         </div>
                     </div>
                 {% endif%}
@@ -41,3 +38,4 @@
 {% endblock%}
 
 <script src="{% static 'js/error.js' %}"></script>
+

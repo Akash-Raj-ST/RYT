@@ -24,6 +24,8 @@
     flex-direction: column;
     height: fit-content;
     width: 500px;
+    animation: error_animation 4s;
+    animation-fill-mode: forwards;
 }
 .error{
     height: fit-content;
@@ -42,6 +44,19 @@
     border-radius: 10px 0 0 10px;
 }
 
+@keyframes error_animation {
+    0%{
+        right: -20%;
+    }
+    10%{
+        right: 0%;
+    } 
+    100%{
+        opacity: 0%;
+    }     
+}
+
+
 .error-message{
     display: flex;
     flex-direction: row;
@@ -56,7 +71,6 @@
     width: fit-content;
 }
 .error img{
-    cursor: pointer;
     width: 30px;
     height: 30px;
     margin: auto;
