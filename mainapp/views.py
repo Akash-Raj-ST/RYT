@@ -131,7 +131,7 @@ def profile(request,user_id):
         {
             "user_id": request.session["user_id"],
         }
-    )
+    ) 
     response = request_api(f"profile/{user_id}",payload,method="GET",token=request.session["token"])
     response_json = json.loads(response.text)
 

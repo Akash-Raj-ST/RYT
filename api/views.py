@@ -20,7 +20,10 @@ def decrypt(password):
 
 def check_auth(request):
     try:
-        user_id = request.data['user_id']
+        if "user_id" in request.data:
+            user_id = request.data['user_id']
+        else:
+            user_id = request.headers["user_id"]
         token = request.headers["token"]
     except:
         if DEBUG:
@@ -116,6 +119,7 @@ def get_review_data(user_rev_objs,login_user,liked_rev=False):
 @api_view(["POST"])
 def login(request):
     if request.method == "POST":
+        print("processing login....")
         username = request.data['username']
         password = request.data['password']
         user_obj = Accounts.objects.filter(username=username)
@@ -127,6 +131,7 @@ def login(request):
             if decrypt(ret_pass) == password:
                 user_id = user_obj.user_id
                 data = {"message": "Login Successful", "user_id": user_id,"key":token_key,"dp":user_obj.dp.url}
+                print("Login successful")
                 return Response(data, status=status.HTTP_202_ACCEPTED)
         data = {"message": "Login Failed"}
         return Response(data, status=status.HTTP_401_UNAUTHORIZED)
@@ -166,7 +171,7 @@ def register(request):
                 data = {"message": "Not Valid"}
         return Response(data, status=status.HTTP_401_UNAUTHORIZED)
 
-@api_view(["GET"])
+@api_view(["GET","POST"])
 def profile(request,user_id):
     if check_auth(request):
         #profile
@@ -199,6 +204,7 @@ def profile(request,user_id):
             for user_rev_obj in user_rev_objs:
                 data["tot_likes"] += user_rev_obj.likes
             res_data={"message":"successful","data":data}
+           
             return Response(res_data,status=status.HTTP_202_ACCEPTED)
     res_data={"message":"Failed"}
     return Response(res_data,status=status.HTTP_400_BAD_REQUEST)
@@ -257,7 +263,8 @@ def places(request, place_id):
                 "image": place_obj.image.url,
                 "subject":place_obj.subject,
                 "description":place_obj.description,
-                "place_type":place_obj.place_type
+                "place_type":place_obj.place_type,
+                "sub_places":[]
             }
 
             place_revs =  Review.objects.filter(p_id = place_id)
@@ -288,12 +295,15 @@ def review(request):
     logged = check_auth(request)
     if request.method == "GET":
         
-        place_id = int(request.data["p_id"]) #place_id from payload
+        if "p_id" in request.data:
+            place_id = int(request.data["p_id"]) #place_id from payload
+        else:
+            place_id = request.headers["p-id"]
         all_place_id = []
         sub_places = Place_map.objects.filter(pm_id=place_id)
         all_place_id = [x.spm_id.p_id for x in sub_places]
         all_place_id.append(place_id)
-
+        
         if DEBUG:
             print(all_place_id)
 
@@ -305,7 +315,7 @@ def review(request):
                 if review_objs.exists():
 
                     if logged:
-                        login_user = request.data["user_id"]
+                        login_user = request.data["user_id"] if "user_id" in request.data else request.headers["user_id"]
                     else:
                         login_user = False
 
@@ -315,7 +325,7 @@ def review(request):
             data = {"message": "Reviews Fetched Successfully", "data": all_data}
         else:
             msg = "No reviews yet"
-            data = {"message": msg, "data": None}
+            data = {"message": msg, "data": []}
             
         all_data.sort(key= lambda x:x["likes"],reverse=True)
         return Response(data, status=status.HTTP_202_ACCEPTED)
@@ -422,6 +432,7 @@ def like(request,r_id):
                     print("Alreay Liked so dislike")
                 liked.delete()
                 likes = tot_likes - 1
+                liked = False
             else:
                 if DEBUG:
                     print("Not Liked so liking")
@@ -433,13 +444,15 @@ def like(request,r_id):
                 like_serializer = Review_likeSerializer(data=like_data)
                 if like_serializer.is_valid():
                     like_serializer.save()
+                    liked = True
                     
             review_obj.likes = likes
             review_obj.save()
             msg = "Success"
             data = {
                 "message":msg,
-                "likes":likes
+                "likes":likes,
+                "liked":liked
             }
 
             return Response(data,status=status.HTTP_200_OK)

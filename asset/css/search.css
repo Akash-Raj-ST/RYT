@@ -1,0 +1,36 @@
+.search_res{
+        height:calc(100vh-50px);
+        background-color:white;
+        z-index:8;
+        overflow-x:hidden;
+        overflow-y:auto;
+}
+
+.tab{
+        position: fixed;
+        width: 100%;
+        background-color: var(--sec_col);
+}
+
+.search_spots,.search_users{
+        padding-top: 50px;
+        background-color: var(--white);
+}
+
+.tab h4{
+        font-size: 0.4rem;
+        margin: 10px;
+        padding: 10px;
+}
+
+.search_spots_button{
+        border-bottom: 5px solid var(--white) ;
+}
+
+.search_users_button{
+        /* border-bottom: 5px solid var(--white); */
+}
+
+.tab h4:hover{
+        border-bottom: 5px solid var(--white) !important;
+}

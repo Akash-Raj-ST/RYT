@@ -1,0 +1,22 @@
+
+.container{
+    padding-top: 40px;
+    margin: 0px 5px 0 25px;
+}
+
+.section{
+    padding: 25px;
+}
+
+.type{
+    font-size: 0.6rem;
+    color: var(--sec_col_2);
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.places{
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+

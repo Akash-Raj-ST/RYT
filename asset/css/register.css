@@ -1,0 +1,96 @@
+
+
+body{
+    position: relative;
+    height: 100vh;
+}
+
+.title{
+    box-sizing: border-box;
+    font-size: 1.5rem;
+}
+
+.full_form{
+    font-size: 0.55rem;
+}
+
+.left{
+    min-height: 100vh;
+    width: 50%;
+    background-color: var(--backg_col);
+}
+
+.left_top{
+    padding-left: 50px;
+    padding-top: 50px;
+}
+
+.register_img{
+    width: 80%;
+    height: 60%;
+    padding-top: 50px;
+}
+
+.right{
+    width: 50%;
+}
+
+.photo_upload{
+    width: 120px;
+    height: 120px;
+    border-radius: 20%;
+    margin:25px auto;
+}
+
+.photo_upload:hover{
+    background-color: var(--img-blur);
+}
+
+#upload_pic{
+    border-radius: 20%;
+}
+
+.circular{
+    bottom: -5%;
+}
+
+.file_input,.file_url{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    visibility: hidden;
+}
+
+.login_redirect{
+    font-size: 0.3rem;
+}
+
+.login_link{
+    color: var(--pri_col);
+    margin: 0 5px;
+    font-weight: bold;
+}
+
+#signup{
+    padding: 10px 25px;
+    margin: 10px;
+    font-size: 0.3rem;
+}
+
+.transparent-back{
+    opacity: 20%;
+    transition: opacity 0.5s;
+}
+
+@media only screen and (max-width:675px){
+    .left{
+        display: none;
+    }
+    .right{
+        width: 100%;
+        background-color: var(--backg_col);
+    }
+    .in_right{
+        display: block;
+    }
+}
