@@ -63,7 +63,7 @@ function req(query){
         redirect: 'follow'
     };
 
-    fetch("http://127.0.0.1:8000/api/search?q="+query, requestOptions)
+    fetch("https://review-yt.herokuapp.com/api/search?q="+query, requestOptions)
     .then(function(response) {
         return response.json();
     }).then(function(data) {

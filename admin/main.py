@@ -176,12 +176,8 @@ def map_data(conn):
 def connect():
 
     try:
-        conn = psycopg2.connect(
-                database=DB,
-                user=DB_USER_NAME,
-                password=DB_PASSWORD,
-                host='localhost'
-                )
+        DATABASE_URL = 'postgres://orgulcdfwuxnsl:42abd3abf12f0a8373052f0d00a225d18b32c4fb8e82377fe3d4cfda68e57b8d@ec2-52-30-67-143.eu-west-1.compute.amazonaws.com:5432/d897u213htdvne'
+        conn = psycopg2.connect(DATABASE_URL)
 
         return conn
 

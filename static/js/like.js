@@ -12,7 +12,7 @@ function like_click(e,r_id,u_id){
     redirect: 'follow'
     };
 
-    fetch("http://127.0.0.1:8000/api/like/"+r_id, requestOptions)
+    fetch("https://review-yt.herokuapp.com/api/like/"+r_id, requestOptions)
     .then(function(response) {
         return response.json();
     }).then(function(data) {
