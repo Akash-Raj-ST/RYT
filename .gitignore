@@ -1,11 +1,8 @@
 *.pyc
 *.pyo
-*.csv
 media
 tempCodeRunnerFile.py
-
-media/review
-media/user_dp
+*.csv
 __pycache__
 todo.txt
 changes
