@@ -35,7 +35,7 @@ def check_session(request):
     return True
 
 def request_api_files(sub_url, payload=None, files=[], method="POST",token=None):
-    url = "http://127.0.0.1:8000/api/"+sub_url
+    url = "https://review-yt.herokuapp.com/api/"+sub_url
 
     headers = {
         "Accept": "*/*",
@@ -47,7 +47,7 @@ def request_api_files(sub_url, payload=None, files=[], method="POST",token=None)
     return response
 
 def request_api(sub_url, payload=None,method="POST",token=None):
-    url = "http://127.0.0.1:8000/api/"+sub_url
+    url = "https://review-yt.herokuapp.com/api/"+sub_url
     headers = {'Content-Type': 'application/json','token':token}
 
     response = requests.request(method, url, headers=headers, data=payload)
