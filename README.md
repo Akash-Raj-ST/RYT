@@ -1,6 +1,8 @@
 <h1 align="center"><b>R Y T</b></h1>
 <h2 align="center"><b>Review Your Tour</b></h2>
-A social media web app made using Django.<br>
+<h3 align="center"><b>
+
+[Click to visit the site](https://review-yt.herokuapp.com/)</b></h2>
 Using this you can share your personal reviews about a place(Images,Text,Tags) under that specific place.<br>
 It has a huge data collection of different places with their info and the places inside of it is mapped in it.<br>
 It can also be used to learn about a place and see other peoples review about it.<br>
