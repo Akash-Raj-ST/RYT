@@ -9,6 +9,8 @@ from django.contrib.auth.models import BaseUserManager,AbstractBaseUser
 
 from datetime import date
 
+from .aws_s3 import PublicMediaStorage
+
 place_types = (
     #actual,human_read
     ("Country","Country"),
@@ -123,7 +125,7 @@ class Review(models.Model):
 
 class Review_pic(models.Model):
     r_id = models.ForeignKey("Review", verbose_name=("r_id_FK"), on_delete=models.CASCADE)
-    r_pic = models.ImageField(upload_to='review')
+    r_pic = models.FileField()
 
 class Review_tag(models.Model):
     r_id = models.ForeignKey("Review", verbose_name=("r_id_FK"), on_delete=models.CASCADE)
