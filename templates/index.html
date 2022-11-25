@@ -1,0 +1,29 @@
+{% load static %}
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CSS</title>
+
+        <link rel="stylesheet" href="{%static 'css/index.css' %}">
+    </head>
+    <body>
+        <div  id="drop-area">
+            <form action="upload" method="POST" enctype="multipart/form-data" class="my-form">
+                 {% csrf_token %}
+                <p>Upload multiple CSS files with the file dialog or by dragging and dropping images onto the dashed region</p>
+                <input type="file" name="CSS_files" id="fileElem" multiple accept=".css" onchange="handleFiles(this.files)">
+                <label class="button" for="fileElem">Choose css files</label>
+                
+                <div id="gallery"></div>
+                
+                <button type="submit" id="submit">Upload Files</button>
+            </form>
+            <h2 id="fname"></h2>
+        </div>
+    </body>
+
+    <script src="{%static 'js/index.js'%}"></script>
+</html>

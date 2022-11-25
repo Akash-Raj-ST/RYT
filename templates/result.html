@@ -1,0 +1,93 @@
+{% load static %}
+
+<style>
+   
+    .container{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .publication{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        border: 2px solid #3791EC;
+        border-radius: 10px;
+        padding: 10px;
+        margin: 10px;
+        width: 25%;
+        min-width: 350px;
+
+    }
+
+    .publication:hover{
+        background-color: #5ba9f334;
+    }
+
+    .publication a{
+        text-decoration: none;
+        color: black;
+    }
+
+    h3{
+        text-align: center;
+        margin: 0 10px;
+        font-weight: normal;
+    }
+
+    h3:hover{
+        cursor: pointer;
+        /* text-decoration: underline; */
+        font-weight: bold;
+    }
+
+    .publication .pdf_icon{
+        width: 40px;
+        height: 45px;
+    }
+
+    .publication .download_icon{
+        width: 28px;
+        height: 28px;
+        cursor: pointer;
+    }
+</style>
+
+<div class="container">
+{%for d in data%}
+    
+    <div class="publication">
+        <img src="{%static  'img/css_img.png' %}" alt="pdf" class="pdf_icon">
+        <div>
+            <a target="_blank" href="{{d.new_file}}">
+                <h3>{{d.name}}</h3>
+            </a>
+            <h3>{{d.old_size}} bytes to {{d.new_size}} bytes</h3>
+            <h3>{{d.percentage}}% saved</h3>
+        </div>
+        <a href="{{d.new_file}}" target="_blank" onmouseover="filled(this)" onmouseleave="outline(this)" download>
+            <img src="{%static 'img/download_outline.png' %}" alt="download" class="download_icon"> 
+        </a> 
+    </div>
+
+{% endfor %}
+
+</div>
+
+<script>
+    function filled(e){
+        var image= e.querySelector(".download_icon"); 
+        image.src = "{%static 'img/download_filled.png' %}";
+        
+    }
+
+    function outline(e){
+        var image= e.querySelector(".download_icon"); 
+        image.src = "{%static 'img/download_outline.png' %}";
+    }
+
+</script>
